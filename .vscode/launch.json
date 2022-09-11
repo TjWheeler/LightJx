@@ -8,11 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "jest: validator.test",
-          //  "preLaunchTask": "tsc: build - tsconfig.json",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/node_modules/.bin/jest", //validator.test.ts",
+            "program": "${workspaceFolder}/node_modules/.bin/jest", 
             "args": ["validator.test", "--config", "jest.config.ts"],
             "console": "integratedTerminal",
             "windows": {

@@ -1,3 +1,7 @@
+declare class ValidationOptions {
+    errorMessageSeperator: string;
+}
+export declare const validationOptions: ValidationOptions;
 export declare class Validate {
     static field(name?: string, displayName?: string): ValidatorFluent;
 }
@@ -13,3 +17,4 @@ export declare class ValidatorFluent {
     required(): ValidatorFluent;
     validate(input: any): boolean;
 }
+export {};

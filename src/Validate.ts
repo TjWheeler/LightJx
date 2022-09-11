@@ -1,5 +1,9 @@
 import { RequiredValidator } from "./validators/RequiredValidator";
 import { Validator } from "./Validator";
+class ValidationOptions {
+    public errorMessageSeperator = ". ";
+}
+export const validationOptions = new ValidationOptions();
 export class Validate {
     public static field(name?: string, displayName?: string): ValidatorFluent {
         var validator = new ValidatorFluent();
@@ -41,7 +45,7 @@ export class ValidatorFluent {
                 this.errorMessages.push(`Error in validator ${typeof (validator)}`);
             }
         }
-        if (this.errorMessages.length) this.errorMessage = this.errorMessages.join(". ");
+        if (this.errorMessages.length) this.errorMessage = this.errorMessages.join(validationOptions.errorMessageSeperator);
         return isValid;
     }
 }
