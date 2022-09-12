@@ -1,0 +1,13 @@
+.git
+.git/*
+.vs/
+.vs
+__tests__
+src
+dist/src
+build
+.vscode
+jest.config.*
+tsconfig.json
+webpack.config.*
+coverage

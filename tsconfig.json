@@ -1,17 +1,18 @@
 {
     "compilerOptions": {
-      "target": "ES2016",
-      "module": "ES6",
+      "target": "es5",
+      "module": "commonjs",
+      "lib": ["es2017", "es7", "es6", "dom"],
       "esModuleInterop": true,
       "strict": true,
       "rootDir": "src",
-      "outDir": "dist",
+      "outDir": "build",
       "sourceMap": true,
-      "declaration": true,
       "moduleResolution": "node",
       "removeComments": true,
       "preserveConstEnums": true,
       "noImplicitAny": true,
+      "declaration": true,
     },
     "include": ["src", "../__tests__"],
   }
