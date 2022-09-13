@@ -16,7 +16,7 @@ export abstract class ValidatorBase implements Validator {
     protected hasValue(input:any) : boolean {
         return !(input === null || input === "" || typeof(input) === typeof(undefined));
     }
-    protected fail(message:string) : boolean {
+    protected fail(message:string = "is not valid") : boolean {
         this.isValid = false;
         this.errorMessage = `${this.fieldDisplayName || this.fieldName} ${message}`;
         return false;
@@ -48,5 +48,7 @@ export abstract class ValidatorBase implements Validator {
     protected isNumber(input:any) : boolean {
         return typeof(input) === "number";
     }
-    
+    protected isArray(input:any) : boolean {
+        return Array.isArray(input);
+    }
 }
