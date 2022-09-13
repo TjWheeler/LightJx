@@ -56,7 +56,7 @@ export class RegexValidator extends ValidatorBase {
     {
         super(fieldName, fieldDisplayName);
     }
-    expression?: string;
+    expression?: string | RegExp;
     validate(input?:any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
@@ -106,6 +106,31 @@ export class HexColorValidator extends RegexValidator {
         super(fieldName, fieldDisplayName);
     }
     override expression?: string = "^\#{1}[A-Fa-f0-9]{3}([A-Fa-f0-9]{3})?$";
+}
+export class UrlValidator extends RegexValidator {
+    constructor(fieldName?:string, fieldDisplayName?:string)
+    {
+        super(fieldName, fieldDisplayName);
+    }
+    override expression?: string = "^((((https?|http?)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|" +
+    "[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,]blank:)?$";
+}
+// export class PhoneNumberValidator extends RegexValidator {
+//     constructor(fieldName?:string, fieldDisplayName?:string)
+//     {
+//         super(fieldName, fieldDisplayName);
+//     }
+//     override expression?: string | RegExp = /^[\+{0,1}](\d*\s?|\-?|\)?|\(?)*$/;
+// }
+/** 
+ * Alpha, space, hyphen and aprostrophe 
+ * */
+export class NameTextValidator extends RegexValidator {
+    constructor(fieldName?:string, fieldDisplayName?:string)
+    {
+        super(fieldName, fieldDisplayName);
+    }
+    override expression?: string = "^([a-zA-Z\\s\\-']{1,})$";
 }
 export class MinDateValidator extends ValidatorBase {
     constructor(minDate:Date, fieldName?:string, fieldDisplayName?:string)
@@ -185,6 +210,28 @@ export class ContainsTextValidator extends ValidatorBase {
                 return input.toLowerCase().includes(this.searchText.toLowerCase()) ? this.succeed() : this.fail("does not contain the required text");
             }
             return input.includes(this.searchText) ? this.succeed() : this.fail("does not contain the required text");
+        } 
+        return this.fail("is not a string");
+    }
+}
+export class NotContainsTextValidator extends ValidatorBase {
+    constructor(searchText:string, ignoreCase:boolean = false, fieldName?:string, fieldDisplayName?:string)
+    {
+        super(fieldName, fieldDisplayName);
+        this.searchText = searchText;
+        this.ignoreCase = ignoreCase;
+    }
+    private ignoreCase:boolean;
+    private searchText:string;
+    validate(input?: any): boolean {
+        if(!this.hasValue(input)) {
+            return this.succeed();
+        }
+        if(typeof(input) === "string") {
+            if(this.ignoreCase) {
+                return input.toLowerCase().includes(this.searchText.toLowerCase()) ? this.fail("contains invalid text") : this.succeed();
+            }
+            return input.includes(this.searchText) ? this.fail("contains invalid text") : this.succeed();
         } 
         return this.fail("is not a string");
     }

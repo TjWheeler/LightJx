@@ -11,7 +11,7 @@ export abstract class ValidatorBase implements Validator {
     errorMessage: string = "";
     fieldName?: string;
     fieldDisplayName?: string;
-    expression?: string = undefined;
+    expression?: string | RegExp = undefined;
     abstract validate(input?:any): boolean;
     protected hasValue(input:any) : boolean {
         return !(input === null || input === "" || typeof(input) === typeof(undefined));

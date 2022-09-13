@@ -143,12 +143,28 @@ export class ValidatorFluent {
         this.add(new Validators.InArrayValidator([value], this.fieldName, this.displayName));
         return this;
     }
+    public isNot(value:any): ValidatorFluent {
+        this.add(new Validators.NotInArrayValidator([value], this.fieldName, this.displayName));
+        return this;
+    }
     public hasLengthRange(min?:number, max?:number): ValidatorFluent {
         this.add(new Validators.LengthValidator(min, max, this.fieldName, this.displayName));
         return this;
     }
     public hasLength(length:number): ValidatorFluent {
         this.add(new Validators.LengthValidator(length, length, this.fieldName, this.displayName));
+        return this;
+    }
+    public min(min:number): ValidatorFluent {
+        this.add(new Validators.MinValidator(min, this.fieldName, this.displayName));
+        return this;
+    }
+    public max(max:number): ValidatorFluent {
+        this.add(new Validators.MinValidator(max, this.fieldName, this.displayName));
+        return this;
+    }
+    public asName(): ValidatorFluent {
+        this.add(new Validators.NameTextValidator(this.fieldName, this.displayName));
         return this;
     }
 }

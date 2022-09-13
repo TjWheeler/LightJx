@@ -121,6 +121,23 @@ describe('ContainsText validator', ()=>{
     testAllForFailure(getCaseSensitiveValidator(), [`asdfa adsf as${searchText.toUpperCase()}dfsdf`,searchText.substring(1),`${searchText.toUpperCase()}-asdfa`,`asdf-${searchText.toUpperCase()}`]);
   });
 });
+describe('NotContainsText validator', ()=>{
+  const searchText = "abc@#$";
+  let getCaseSensitiveValidator = () => new v.NotContainsTextValidator(searchText, false);
+  let getCaseInSensitiveValidator = () => new v.NotContainsTextValidator(searchText, true);
+  test('success cases', () => {
+    testEmptySucceeds(getCaseSensitiveValidator);
+    testEmptySucceeds(getCaseInSensitiveValidator);
+    testAllForSuccess(getCaseInSensitiveValidator(), [`asdfa adsf asdfsdf`,searchText.substring(1),`-asdfa`,`asdf-`]);
+    testAllForSuccess(getCaseSensitiveValidator(), [`asdfa adsf as${searchText.toUpperCase()}dfsdf`,searchText.substring(1),`${searchText.toUpperCase()}-asdfa`,`asdf-${searchText.toUpperCase()}`]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getCaseInSensitiveValidator(), [`asdfa adsf as${searchText}dfsdf`,searchText,`${searchText}-asdfa`,`asdf-${searchText}`]);
+    testAllForFailure(getCaseSensitiveValidator(), [`asdfa adsf as${searchText}dfsdf`,searchText,`${searchText}-asdfa`,`asdf-${searchText}`]);
+
+    
+  });
+});
 describe('Int validator', ()=>{
   let getValidator = () => new v.IntValidator();
   test('success cases', () => {
@@ -224,6 +241,39 @@ describe('Max validator', ()=>{
     testAllForFailure(getValidator(), [6,100,"6",5.100,"5.234",true, false, {}]);
   });
 });
+describe('NameText validator', ()=>{
+  let getValidator = () => new v.NameTextValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), ["Joe Smith", "Larry O'Hanigan", "Sally Smith-Hill"]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
+  });
+});
+describe('Url validator', ()=>{
+  let getValidator = () => new v.UrlValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), ["https://www.secure.com/default.htm", "http://www.abc.net.au", "https://otg.technology"]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["htts://www.secure.com/default.htm","J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
+  });
+});
+//Phone numbers need more investigation and probably localisation.
+// describe('PhoneNumber validator', ()=>{
+//   let getValidator = () => new v.PhoneNumberValidator();
+//   test('success cases', () => {
+//     testEmptySucceeds(getValidator);
+//     testAllForSuccess(getValidator(), ["123-12324","(04) 1234 5678", "+61 4 31 207 307"]);
+//   });
+//   test('failure cases', () => {
+//     testAllForFailure(getValidator(), ["abc","(04) ABC 2134", {}, true, false]);
+//   });
+// });
+
+
 
 /*  Template
 
