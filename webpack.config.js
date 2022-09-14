@@ -1,7 +1,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const DtsBundleWebpack = require('dts-bundle-webpack')
-
+const DtsBundleWebpack = require('dts-bundle-webpack');
+const { IgnorePlugin } = require('webpack');
 module.exports = {
   mode: "production",
   entry: path.resolve(__dirname, './src/index.ts'),
@@ -28,6 +28,8 @@ module.exports = {
   },
 
   plugins: [
+    new IgnorePlugin({resourceRegExp: /^\.\/locale$/,
+    contextRegExp: /moment$/,}),
     new DtsBundleWebpack({
       name: 'lightjx',
       main: './build/**/*.d.ts',

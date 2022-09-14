@@ -37,6 +37,7 @@ export class ValidatorFluent {
                 this.errorMessages.push(`Error in validator ${typeof (validator)}`);
             }
         }
+        this.isValid = isValid;
         if (this.errorMessages.length) this.errorMessage = this.errorMessages.join(this.options.errorMessageSeperator || ". ");
         return this;
     }
@@ -60,7 +61,7 @@ export class ValidatorFluent {
      * @param expression Regular Expression as a String
      * @returns 
      */
-    public withExpression(expression:string): ValidatorFluent {
+    public withExpression(expression:string | RegExp): ValidatorFluent {
         let validator = new Validators.RegexValidator(this.fieldName, this.displayName);
         validator.expression = expression;
         this.add(validator);
@@ -80,6 +81,18 @@ export class ValidatorFluent {
      */
     public asAlphaNumericHyphenText(): ValidatorFluent {
         this.add(new Validators.AlphaNumericHyphenValidator(this.fieldName, this.displayName));
+        return this;
+    }
+    public asName(): ValidatorFluent {
+        this.add(new Validators.NameTextValidator(this.fieldName, this.displayName));
+        return this;
+    }
+    public asPhoneNumber(): ValidatorFluent {
+        this.add(new Validators.PhoneNumberValidator(this.fieldName, this.displayName));
+        return this;
+    }
+    public asEmail(): ValidatorFluent {
+        this.add(new Validators.EmailValidator(this.fieldName, this.displayName));
         return this;
     }
     public isDateOnOrAfter(minDate:Date): ValidatorFluent {
@@ -109,10 +122,6 @@ export class ValidatorFluent {
     }
     public isFloat(): ValidatorFluent {
         this.add(new Validators.FloatValidator(this.fieldName, this.displayName));
-        return this;
-    }
-    public isEmail(): ValidatorFluent {
-        this.add(new Validators.EmailValidator(this.fieldName, this.displayName));
         return this;
     }
     public isGuid(): ValidatorFluent {
@@ -160,11 +169,8 @@ export class ValidatorFluent {
         return this;
     }
     public max(max:number): ValidatorFluent {
-        this.add(new Validators.MinValidator(max, this.fieldName, this.displayName));
+        this.add(new Validators.MaxValidator(max, this.fieldName, this.displayName));
         return this;
     }
-    public asName(): ValidatorFluent {
-        this.add(new Validators.NameTextValidator(this.fieldName, this.displayName));
-        return this;
-    }
+    
 }

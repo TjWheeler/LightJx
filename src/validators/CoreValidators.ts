@@ -1,6 +1,17 @@
 import { Validator } from "../Validator";
 import { ValidatorBase } from "./ValidatorBase";
 import moment from 'moment';
+export class LogOptions {
+    enabled:boolean = true;
+}
+export const logOptions = new LogOptions();
+class log {
+    public static warn(input:string) {
+        if(logOptions.enabled) {
+            console.warn(input);
+        }
+    }
+}
 
 export class RequiredValidator extends ValidatorBase {
     constructor(fieldName?:string, fieldDisplayName?:string)
@@ -67,7 +78,7 @@ export class RegexValidator extends ValidatorBase {
             return this.test(input.toString()) ? this.succeed() : this.fail("does not match the required format");
         }
         else {
-            console.warn(`The input for field ${this.fieldName} must be a string or a number to use this Validator`);
+            log.warn(`The input for field ${this.fieldName} must be a string or a number to use this Validator`);
         }
         return this.fail("is not a valid string");
     }
@@ -115,13 +126,13 @@ export class UrlValidator extends RegexValidator {
     override expression?: string = "^((((https?|http?)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|" +
     "[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,]blank:)?$";
 }
-// export class PhoneNumberValidator extends RegexValidator {
-//     constructor(fieldName?:string, fieldDisplayName?:string)
-//     {
-//         super(fieldName, fieldDisplayName);
-//     }
-//     override expression?: string | RegExp = /^[\+{0,1}](\d*\s?|\-?|\)?|\(?)*$/;
-// }
+export class PhoneNumberValidator extends RegexValidator {
+    constructor(fieldName?:string, fieldDisplayName?:string)
+    {
+        super(fieldName, fieldDisplayName);
+    }
+    override expression?: string | RegExp = /^[\+{0,1}]?([\d*\s?|\-?|\)?|\(?]{3,})$/;
+}
 /** 
  * Alpha, space, hyphen and aprostrophe 
  * */
@@ -144,7 +155,8 @@ export class MinDateValidator extends ValidatorBase {
             return this.succeed();
         }
         if(typeof(input) === "string") {
-            if(!moment(input as string).isValid()) return this.fail("is not a valid date");
+            if(!moment(input as string,moment.ISO_8601).isValid()) return this.fail("is not a valid date");
+            return moment(input,moment.ISO_8601).isSameOrAfter(moment(this.minDate)) ? this.succeed() : this.fail("must be the same or after the required date");    
         } else if(!moment.isDate(input)) return this.fail("is not a valid date");
         return moment(input).isSameOrAfter(moment(this.minDate)) ? this.succeed() : this.fail("must be the same or after the required date");
     }
@@ -161,7 +173,8 @@ export class MaxDateValidator extends ValidatorBase {
             return this.succeed();
         }
         if(typeof(input) === "string") {
-            if(!moment(input as string).isValid()) return this.fail("is not a valid date");
+            if(!moment(input as string,moment.ISO_8601).isValid()) return this.fail("is not a valid date");
+            return moment(input,moment.ISO_8601).isSameOrBefore(moment(this.maxDate)) ? this.succeed() : this.fail("must be the same or before the required date");    
         } else if(!moment.isDate(input)) return this.fail("is not a valid date");
         return moment(input).isSameOrBefore(moment(this.maxDate)) ? this.succeed() : this.fail("must be the same or before the required date");
     }
@@ -184,11 +197,11 @@ export class BooleanValidator extends ValidatorBase {
             return this.succeed();
         }
         if(typeof(input) == "string") {
-            return (input.toLocaleLowerCase() == "true" || input.toLocaleLowerCase() == "false");
+            return (input.toLocaleLowerCase() == "true" || input.toLocaleLowerCase() == "false") ? this.succeed() : this.fail();
         } else if(typeof(input) == "boolean") {
-            return true;
+            return this.succeed();
         } 
-        return false;
+        return this.fail();
     }
 }
 
@@ -247,6 +260,9 @@ export class FloatValidator extends ValidatorBase {
         }
         if(this.isNumber(input)) return this.succeed();
         if(this.isString(input)) {
+            if(/^[0-9.]{1,}$/.test(input) === false) {
+                return this.fail();
+            }
             return isNaN(parseFloat(input as string)) ? this.fail("is not a valid number") : this.succeed();
         }
         return this.fail();

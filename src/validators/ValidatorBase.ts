@@ -14,7 +14,7 @@ export abstract class ValidatorBase implements Validator {
     expression?: string | RegExp = undefined;
     abstract validate(input?:any): boolean;
     protected hasValue(input:any) : boolean {
-        return !(input === null || input === "" || typeof(input) === typeof(undefined));
+        return !(input === null || input === "" || typeof(input) === typeof(undefined) || (typeof(input) === "number" && isNaN(input)));
     }
     protected fail(message:string = "is not valid") : boolean {
         this.isValid = false;

@@ -1,16 +1,12 @@
 import moment from 'moment';
 import { Validator} from '../src/Validator';
 import * as v from '../src/validators/CoreValidators';
-
+v.logOptions.enabled = false;
 const fieldName = "abcfield";
 const fieldDisplayName = "ABC Field";
 const applyFieldNames = (validator:Validator) => {
   validator.fieldName = fieldName;
   validator.fieldDisplayName = fieldDisplayName;
-};
-const testForSuccess = (validator:Validator, input:any) => {
-  applyFieldNames(validator);
-  expect(validator.validate(input)).toBe(true);
 };
 const testAllForSuccess = (validator:Validator, input:Array<any>) => {
   applyFieldNames(validator);
@@ -261,17 +257,27 @@ describe('Url validator', ()=>{
     testAllForFailure(getValidator(), ["htts://www.secure.com/default.htm","J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
   });
 });
-//Phone numbers need more investigation and probably localisation.
-// describe('PhoneNumber validator', ()=>{
-//   let getValidator = () => new v.PhoneNumberValidator();
-//   test('success cases', () => {
-//     testEmptySucceeds(getValidator);
-//     testAllForSuccess(getValidator(), ["123-12324","(04) 1234 5678", "+61 4 31 207 307"]);
-//   });
-//   test('failure cases', () => {
-//     testAllForFailure(getValidator(), ["abc","(04) ABC 2134", {}, true, false]);
-//   });
-// });
+describe('boolean validator', ()=>{
+  let getValidator = () => new v.BooleanValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), [true, false]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["yes","no",123,"1",1,0,{}]);
+  });
+});
+
+describe('PhoneNumber validator', ()=>{
+  let getValidator = () => new v.PhoneNumberValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), ["+61 (4) 345 12345","123-12324","(04) 1234 5678", "+61 4 31 207 307"]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["abc","(04) ABC 2134", {}, true, false]);
+  });
+});
 
 
 

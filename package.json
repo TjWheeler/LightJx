@@ -1,6 +1,6 @@
 {
   "name": "lightjx",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A javascript validation framework",
   "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
@@ -9,6 +9,9 @@
     "build": "webpack",
     "build-tsc": "tsc --build",
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:validators": "jest __tests__/validator.test.ts",
+    "test:fluent": "jest __tests__/fluentapi.test.ts",
     "prerelease": "npm pack",
     "debug": "webpack --config webpack.config.js --mode development",
     "prepare": "webpack --config webpack.config.js --mode production",
@@ -39,6 +42,9 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "moment": "^2.29.4"
+    "moment": "2.29.0"
+  },
+  "resolutions": {
+    "moment": "2.29.0"
   }
 }
