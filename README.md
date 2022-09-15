@@ -1,4 +1,4 @@
-# LightJx - Under development
+# LightJx - A Validation Framework
 
 A javascript validation framework ported and adapted from [LightVx](https://github.com/TjWheeler/LightVx)
 
