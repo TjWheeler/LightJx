@@ -8,4 +8,8 @@ export class Validate {
         validator.displayName = displayName;
         return validator;
     }
+    public static define(): ValidatorFluent {
+        var validator = new ValidatorFluent(validationOptions);
+        return validator;
+    }
 }

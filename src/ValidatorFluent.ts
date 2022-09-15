@@ -19,6 +19,12 @@ export class ValidatorFluent {
     private add(validator: Validator) {
         this.validators.push(validator);
     }
+    public setName(name:string, displayName?:string) {
+        this.validators.forEach((validator:Validator)=>{
+            validator.fieldName = name;
+            if(displayName) validator.fieldDisplayName = displayName;
+        });
+    }
     public validate(input: any): ValidatorFluent {
         this.input = input;
         this.errorMessages = [];
