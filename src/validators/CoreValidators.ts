@@ -335,7 +335,7 @@ export class LengthValidator extends ValidatorBase {
         const min = this.min || 0;
         if(this.isString(input)) {
             const length = (input as string).length;
-            if(length < min) return this.fail();
+            if(min && length < min) return this.fail();
             if(this.max && length > this.max) return this.fail();
             return this.succeed();
         }

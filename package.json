@@ -42,7 +42,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "moment": "2.29.0"
+    "moment": "^2.29.4"
   },
   "resolutions": {
     "moment": "2.29.0"

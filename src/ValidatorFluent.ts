@@ -166,8 +166,12 @@ export class ValidatorFluent {
         this.add(new Validators.LengthValidator(min, max, this.fieldName, this.displayName));
         return this;
     }
-    public hasLength(length:number): ValidatorFluent {
-        this.add(new Validators.LengthValidator(length, length, this.fieldName, this.displayName));
+    public hasMaxLength(maxLength:number): ValidatorFluent {
+        this.add(new Validators.LengthValidator(undefined, maxLength, this.fieldName, this.displayName));
+        return this;
+    }
+    public hasMinLength(minLength:number): ValidatorFluent {
+        this.add(new Validators.LengthValidator(minLength, undefined, this.fieldName, this.displayName));
         return this;
     }
     public min(min:number): ValidatorFluent {

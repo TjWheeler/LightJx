@@ -150,10 +150,15 @@ describe('fluent api', ()=>{
         validateAllForSuccess(fluent, ["12","123","1234",[1,2,3,4]]);
         validateAllForFailure(fluent, ["1","12345",[1,2,3,4,5],[]]);
     });
-    test('hasLength', () => {
-        let fluent = validate().hasLength(3);
+    test('hasMaxLength', () => {
+        let fluent = validate().hasMaxLength(3);
         validateAllForSuccess(fluent, ["123",[1,2,3]]);
-        validateAllForFailure(fluent, ["1","12345",[1,2,3,4,5],[]]);
+        validateAllForFailure(fluent, ["12345",[1,2,3,4,5]]);
+    });
+    test('hasMinLength', () => {
+        let fluent = validate().hasMinLength(3);
+        validateAllForSuccess(fluent, ["123",[1,2,3],"1234"]);
+        validateAllForFailure(fluent, ["12",[1,2],[]]);
     });
     test('min', () => {
         let fluent = validate().min(3);
