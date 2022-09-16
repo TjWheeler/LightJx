@@ -1,8 +1,9 @@
+import { DateHelper } from '../src/helpers/DateHelper';
 import {Validate} from '../src/Validate';
 import { ValidatorFluent } from '../src/ValidatorFluent';
 import { RequiredValidator } from '../src/validators/CoreValidators';
 import { logOptions } from '../src/validators/CoreValidators';
-import moment from 'moment';
+
 logOptions.enabled = false;
 const fieldName = "MyField";
 const displayName = "My Field";
@@ -54,23 +55,23 @@ describe('fluent api', ()=>{
         validateAllForFailure(fluent, ["#$@",{},"'",true,false]);
     });
     test('isDateOnOrAfter', () => {
-        const theDate = moment().subtract(1,"hours").toDate();
+        const theDate = DateHelper.subtractHours(new Date(), 1);
         let fluent = validate().isDateOnOrAfter(theDate);
-        validateAllForSuccess(fluent, [new Date(),moment().subtract(1,"minutes").toDate(), theDate]);
-        validateAllForFailure(fluent, [moment().subtract(2,"hours").toDate(),moment(theDate).subtract(1,'seconds').toDate()]);
+        validateAllForSuccess(fluent, [new Date(),DateHelper.subtractMinutes(new Date(), 1), theDate]);
+        validateAllForFailure(fluent, [DateHelper.subtractHours(new Date(), 2),DateHelper.subtractSeconds(theDate, 1)]);
     });
     test('isDateOnOrBefore', () => {
-        const theDate = moment().add(1,"hours").toDate();
+        const theDate = DateHelper.addHours(new Date(), 1);
         let fluent = validate().isDateOnOrBefore(theDate);
-        validateAllForSuccess(fluent, [new Date(),moment().add(1,"minutes").toDate(),theDate]);
-        validateAllForFailure(fluent, [moment().add(2,"hours").toDate(), moment(theDate).add(1,'seconds').toDate()]);
+        validateAllForSuccess(fluent, [new Date(),DateHelper.addMinutes(new Date(),1),theDate]);
+        validateAllForFailure(fluent, [DateHelper.addHours(new Date(),2), DateHelper.addSeconds(theDate, 1)]);
     });
     test('isDateBetween', () => {
-        const minDate = moment().toDate();
-        const maxDate = moment(minDate).add(1,"hours").toDate();
+        const minDate = new Date();
+        const maxDate = DateHelper.addHours(minDate, 1);
         let fluent = validate().isDateBetween(minDate,maxDate);
-        validateAllForSuccess(fluent, [minDate,maxDate, moment(minDate).add(1,"minutes").toDate()]);
-        validateAllForFailure(fluent, [moment(maxDate).add(1,"seconds").toDate(), moment(minDate).subtract(1,'seconds').toDate()]);
+        validateAllForSuccess(fluent, [minDate,maxDate, DateHelper.addMinutes(minDate, 1)]);
+        validateAllForFailure(fluent, [DateHelper.addSeconds(maxDate, 1), DateHelper.subtractSeconds(minDate, 1)]);
     });
     test('isBoolean', () => {
         let fluent = validate().isBoolean();

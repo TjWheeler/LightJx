@@ -1,1 +1,2 @@
 // LightJx - https://github.com/TjWheeler/LightJx
+// MIT License

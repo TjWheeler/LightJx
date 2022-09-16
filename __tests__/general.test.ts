@@ -2,7 +2,6 @@ import { Validate } from '../src/Validate';
 import { ValidatorFluent } from '../src/ValidatorFluent';
 import { RequiredValidator } from '../src/validators/CoreValidators';
 import { logOptions } from '../src/validators/CoreValidators';
-import moment from 'moment';
 logOptions.enabled = false;
 const fieldName = "MyField";
 const displayName = "My Field";

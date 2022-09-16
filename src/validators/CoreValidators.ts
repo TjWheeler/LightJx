@@ -1,6 +1,6 @@
 import { Validator } from "../Validator";
 import { ValidatorBase } from "./ValidatorBase";
-import moment from 'moment';
+import { DateHelper } from "../helpers/DateHelper";
 export class LogOptions {
     enabled:boolean = true;
 }
@@ -155,10 +155,10 @@ export class MinDateValidator extends ValidatorBase {
             return this.succeed();
         }
         if(typeof(input) === "string") {
-            if(!moment(input as string,moment.ISO_8601).isValid()) return this.fail("is not a valid date");
-            return moment(input,moment.ISO_8601).isSameOrAfter(moment(this.minDate)) ? this.succeed() : this.fail("must be the same or after the required date");    
-        } else if(!moment.isDate(input)) return this.fail("is not a valid date");
-        return moment(input).isSameOrAfter(moment(this.minDate)) ? this.succeed() : this.fail("must be the same or after the required date");
+            if(!DateHelper.isDateString(input as string)) return this.fail("is not a valid date");
+            return DateHelper.isSameOrAfter(DateHelper.parseISODate(input), this.minDate) ? this.succeed() : this.fail("must be the same or after the required date");    
+        } else if(!DateHelper.isDateObject(input)) return this.fail("is not a valid date");
+        return DateHelper.isSameOrAfter(input,this.minDate) ? this.succeed() : this.fail("must be the same or after the required date");
     }
 }
 export class MaxDateValidator extends ValidatorBase {
@@ -173,10 +173,10 @@ export class MaxDateValidator extends ValidatorBase {
             return this.succeed();
         }
         if(typeof(input) === "string") {
-            if(!moment(input as string,moment.ISO_8601).isValid()) return this.fail("is not a valid date");
-            return moment(input,moment.ISO_8601).isSameOrBefore(moment(this.maxDate)) ? this.succeed() : this.fail("must be the same or before the required date");    
-        } else if(!moment.isDate(input)) return this.fail("is not a valid date");
-        return moment(input).isSameOrBefore(moment(this.maxDate)) ? this.succeed() : this.fail("must be the same or before the required date");
+            if(!DateHelper.isDateString(input as string)) return this.fail("is not a valid date");
+            return DateHelper.isSameOrBefore(DateHelper.parseISODate(input), this.maxDate) ? this.succeed() : this.fail("must be the same or before the required date");    
+        } else if(!DateHelper.isDateObject(input)) return this.fail("is not a valid date");
+        return DateHelper.isSameOrBefore(input, this.maxDate) ? this.succeed() : this.fail("must be the same or before the required date");
     }
 }
 export class BetweenDateValidator extends AggregatedValidator {

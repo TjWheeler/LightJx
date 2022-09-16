@@ -5,7 +5,7 @@ var webpack = require('webpack');
 
 var version = JSON.stringify(require("./package.json").version).replace(/\"/g, '');
 var bannerOptions = {
-  banner: 'lightjx v' + version + ' - https://github.com/TjWheeler/lightjx',
+  banner: 'lightjx v' + version + ' - https://github.com/TjWheeler/lightjx - MIT License',
   entryOnly: true
 };
 
@@ -37,7 +37,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/, }),
+  //  new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/, }),
     new DtsBundleWebpack({
       name: 'lightjx',
       main: './build/**/*.d.ts',

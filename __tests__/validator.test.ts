@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { DateHelper } from '../src/helpers/DateHelper';
 import { Validator} from '../src/Validator';
 import * as v from '../src/validators/CoreValidators';
 v.logOptions.enabled = false;
@@ -81,25 +81,25 @@ describe('AlphaNumericHyphen validator', ()=>{
   });
 });
 describe('MinDate validator', ()=>{
-  const minDate = moment().subtract(1, 'seconds').toDate();
+  const minDate = DateHelper.subtractSeconds(new Date(), 1);
   let getValidator = () => new v.MinDateValidator(minDate);
   test('success cases', () => {
     testEmptySucceeds(getValidator);
-    testAllForSuccess(getValidator(), [moment(minDate).toISOString(), minDate, moment().toDate(), moment().add(1, 'days').toDate()]);
+    testAllForSuccess(getValidator(), [minDate.toISOString(), minDate, new Date(),DateHelper.addHours(new Date(), 24)]);
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), ["baddata", moment(minDate).subtract(1,'seconds').toISOString(), moment(minDate).subtract(1,'seconds'), moment().subtract(1, 'days')]);
+    testAllForFailure(getValidator(), ["baddata", DateHelper.subtractSeconds(minDate,1).toISOString(), DateHelper.subtractSeconds(minDate,1), DateHelper.subtractHours(new Date(), 24)]);
   });
 });
 describe('MaxDate validator', ()=>{
-  const maxDate = moment().add(10, 'seconds').toDate();
+  const maxDate = DateHelper.addSeconds(new Date(), 10);
   let getValidator = () => new v.MaxDateValidator(maxDate);
   test('success cases', () => {
     testEmptySucceeds(getValidator);
-    testAllForSuccess(getValidator(), [moment(maxDate).toISOString(), maxDate, moment().toDate(), moment().subtract(1, 'days').toDate()]);
+    testAllForSuccess(getValidator(), [maxDate.toISOString(), maxDate,new Date(), DateHelper.subtractHours(new Date(),24)]);
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), ["baddata", moment(maxDate).add(1,'seconds').toISOString(), moment(maxDate).add(1,'seconds'), moment().add(1, 'days')]);
+    testAllForFailure(getValidator(), ["baddata", DateHelper.addSeconds(maxDate,1).toISOString(), DateHelper.addSeconds(maxDate,1), DateHelper.addHours(new Date(), 24)]);
   });
 });
 describe('ContainsText validator', ()=>{
