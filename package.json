@@ -1,6 +1,6 @@
 {
   "name": "lightjx",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A javascript validation framework",
   "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
