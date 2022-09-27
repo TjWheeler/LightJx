@@ -56,8 +56,18 @@ describe('AlphaText validator', ()=>{
     testEmptySucceeds(getValidator);
     testAllForSuccess(getValidator(), ["abc","abcABC","aBc"]);
   });
-  test(' cases', () => {
+  test('failure cases', () => {
     testAllForFailure(getValidator(), ["abc1","123",123,"ab-c","abc@$"]);
+  });
+});
+describe('AlphaNumericText validator', ()=>{
+  let getValidator = () => new v.AlphaNumericTextValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), ["abc","abcABC","aBc1234567890",123]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["abc-","@123","ab-c"]);
   });
 });
 describe('AlphaText validator', ()=>{
@@ -85,7 +95,8 @@ describe('MinDate validator', ()=>{
   let getValidator = () => new v.MinDateValidator(minDate);
   test('success cases', () => {
     testEmptySucceeds(getValidator);
-    testAllForSuccess(getValidator(), [minDate.toISOString(), minDate, new Date(),DateHelper.addHours(new Date(), 24)]);
+    testAllForSuccess(getValidator(), [ minDate.toISOString(), minDate, new Date(),DateHelper.addHours(new Date(), 24)]);
+    testAllForSuccess(new v.MinDateValidator(() => minDate), [ minDate.toISOString(), minDate, new Date(),DateHelper.addHours(new Date(), 24)]);
   });
   test('failure cases', () => {
     testAllForFailure(getValidator(), ["baddata", DateHelper.subtractSeconds(minDate,1).toISOString(), DateHelper.subtractSeconds(minDate,1), DateHelper.subtractHours(new Date(), 24)]);
@@ -209,12 +220,12 @@ describe('Length validator', ()=>{
   test('success cases', () => {
     testEmptySucceeds(getValidator);
     testAllForSuccess(getValidator(), ["a","abc",[1,2,3],[1]]);
-    testAllForSuccess(new v.LengthValidator(3,undefined), ["abc","abcd",[1,2,3,4]]);
+    testAllForSuccess(new v.LengthValidator(3,undefined),[123,"abc","abcd",[1,2,3,4]]);
     
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), ["abcd",12,,1234,[1,2,3,4],[]]);
-    testAllForFailure(new v.LengthValidator(3,undefined), ["bc",[1],[]]);
+    testAllForFailure(getValidator(), ["abcd",1234,[1,2,3,4],[]]);
+    testAllForFailure(new v.LengthValidator(3,undefined), [12,"a","bc",[1],[]]);
   });
 });
 describe('Min validator', ()=>{

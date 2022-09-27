@@ -81,6 +81,10 @@ export class ValidatorFluent {
         this.add(new Validators.AlphaTextValidator(this.fieldName, this.displayName))
         return this;
     }
+    public asAlphaNumericText(): ValidatorFluent {
+        this.add(new Validators.AlphaNumericTextValidator(this.fieldName, this.displayName))
+        return this;
+    }
     /**
      * Validate as Alpha, spaces, numbers and hyphen
      * @returns 
@@ -97,15 +101,19 @@ export class ValidatorFluent {
         this.add(new Validators.PhoneNumberValidator(this.fieldName, this.displayName));
         return this;
     }
+    public asNumber(): ValidatorFluent {
+        this.add(new Validators.NumberValidator(this.fieldName, this.displayName));
+        return this;
+    }
     public asEmail(): ValidatorFluent {
         this.add(new Validators.EmailValidator(this.fieldName, this.displayName));
         return this;
     }
-    public isDateOnOrAfter(minDate:Date): ValidatorFluent {
+    public isDateOnOrAfter(minDate:Date | Function): ValidatorFluent {
         this.add(new Validators.MinDateValidator(minDate, this.fieldName, this.displayName));
         return this;
     }
-    public isDateOnOrBefore(maxDate:Date): ValidatorFluent {
+    public isDateOnOrBefore(maxDate:Date | Function): ValidatorFluent {
         this.add(new Validators.MaxDateValidator(maxDate, this.fieldName, this.displayName));
         return this;
     }
@@ -118,7 +126,7 @@ export class ValidatorFluent {
         return this;
     }
     
-    public containsText(searchText:string, ignoreCase:boolean = false): ValidatorFluent {
+    public containsText(searchText:string | Function, ignoreCase:boolean = false): ValidatorFluent {
         this.add(new Validators.ContainsTextValidator(searchText, ignoreCase, this.fieldName, this.displayName));
         return this;
     }
@@ -162,23 +170,23 @@ export class ValidatorFluent {
         this.add(new Validators.NotInArrayValidator([value], this.fieldName, this.displayName));
         return this;
     }
-    public hasLengthRange(min?:number, max?:number): ValidatorFluent {
+    public hasLengthRange(min?:number | Function, max?:number | Function): ValidatorFluent {
         this.add(new Validators.LengthValidator(min, max, this.fieldName, this.displayName));
         return this;
     }
-    public hasMaxLength(maxLength:number): ValidatorFluent {
+    public hasMaxLength(maxLength:number | Function): ValidatorFluent {
         this.add(new Validators.LengthValidator(undefined, maxLength, this.fieldName, this.displayName));
         return this;
     }
-    public hasMinLength(minLength:number): ValidatorFluent {
+    public hasMinLength(minLength:number | Function): ValidatorFluent {
         this.add(new Validators.LengthValidator(minLength, undefined, this.fieldName, this.displayName));
         return this;
     }
-    public min(min:number): ValidatorFluent {
+    public min(min:number | Function): ValidatorFluent {
         this.add(new Validators.MinValidator(min, this.fieldName, this.displayName));
         return this;
     }
-    public max(max:number): ValidatorFluent {
+    public max(max:number | Function): ValidatorFluent {
         this.add(new Validators.MaxValidator(max, this.fieldName, this.displayName));
         return this;
     }

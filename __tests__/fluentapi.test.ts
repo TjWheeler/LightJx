@@ -49,6 +49,11 @@ describe('fluent api', ()=>{
         validateAllForSuccess(fluent, ["a","abc ABC"]);
         validateAllForFailure(fluent, ["#$@",{},"'",1,"1"]);
     });
+    test('asAlphaNumericText', () => {
+        let fluent = validate().asAlphaNumericText();
+        validateAllForSuccess(fluent, ["a","abcABC",123,"abc1","1"]);
+        validateAllForFailure(fluent, ["#$@",{},"'","#1a"]);
+    });
     test('asAlphaNumericHyphenText', () => {
         let fluent = validate().asAlphaNumericHyphenText();
         validateAllForSuccess(fluent, ["a","abc ABC","abc 123",123,"a-b"]);
@@ -59,12 +64,14 @@ describe('fluent api', ()=>{
         let fluent = validate().isDateOnOrAfter(theDate);
         validateAllForSuccess(fluent, [new Date(),DateHelper.subtractMinutes(new Date(), 1), theDate]);
         validateAllForFailure(fluent, [DateHelper.subtractHours(new Date(), 2),DateHelper.subtractSeconds(theDate, 1)]);
+        validateAllForSuccess(validate().isDateOnOrAfter(()=>theDate), [new Date(),DateHelper.subtractMinutes(new Date(), 1), theDate]);
     });
     test('isDateOnOrBefore', () => {
         const theDate = DateHelper.addHours(new Date(), 1);
         let fluent = validate().isDateOnOrBefore(theDate);
         validateAllForSuccess(fluent, [new Date(),DateHelper.addMinutes(new Date(),1),theDate]);
         validateAllForFailure(fluent, [DateHelper.addHours(new Date(),2), DateHelper.addSeconds(theDate, 1)]);
+        validateAllForSuccess(validate().isDateOnOrBefore(()=>theDate), [new Date(),DateHelper.addMinutes(new Date(),1),theDate]);
     });
     test('isDateBetween', () => {
         const minDate = new Date();
@@ -83,9 +90,13 @@ describe('fluent api', ()=>{
         let fluent = validate().containsText(searchText, false);
         validateAllForSuccess(fluent, [`----${searchText}`,`abc${searchText}abc`, searchText]);
         validateAllForFailure(fluent, [`abc${searchText.toUpperCase()}abc`,true,false,"true","false","#$@",{},1,0,"yes","no"]);
+        fluent = validate().containsText(()=>searchText, false);
+        validateAllForSuccess(fluent, [`----${searchText}`,`abc${searchText}abc`, searchText]);
+        validateAllForFailure(fluent, [`abc${searchText.toUpperCase()}abc`,true,false,"true","false","#$@",{},1,0,"yes","no"]);
         fluent = validate().containsText(searchText, true);
         validateAllForSuccess(fluent, [`abc${searchText}abc`,`----${searchText.toUpperCase()}`,`abc${searchText.toUpperCase()}abc`, searchText.toUpperCase()]);
         validateAllForFailure(fluent, [`abcabc`,true,false,"true","false","#$@",{},1,0,"yes","no"]);
+        
     });
     test('isInt', () => {
         let fluent = validate().isInt();
@@ -147,27 +158,27 @@ describe('fluent api', ()=>{
         validateAllForFailure(validate().isNot(true), [true]);
     });
     test('hasLengthRange', () => {
-        let fluent = validate().hasLengthRange(2,4);
+        let fluent = validate().hasLengthRange(()=>2,()=>4);
         validateAllForSuccess(fluent, ["12","123","1234",[1,2,3,4]]);
         validateAllForFailure(fluent, ["1","12345",[1,2,3,4,5],[]]);
     });
     test('hasMaxLength', () => {
-        let fluent = validate().hasMaxLength(3);
+        let fluent = validate().hasMaxLength(()=>3);
         validateAllForSuccess(fluent, ["123",[1,2,3]]);
         validateAllForFailure(fluent, ["12345",[1,2,3,4,5]]);
     });
     test('hasMinLength', () => {
-        let fluent = validate().hasMinLength(3);
+        let fluent = validate().hasMinLength(()=>3);
         validateAllForSuccess(fluent, ["123",[1,2,3],"1234"]);
         validateAllForFailure(fluent, ["12",[1,2],[]]);
     });
     test('min', () => {
-        let fluent = validate().min(3);
+        let fluent = validate().min(()=>3);
         validateAllForSuccess(fluent, [3,4,100]);
         validateAllForFailure(fluent, [0,1,2]);
     });
     test('max', () => {
-        let fluent = validate().max(3);
+        let fluent = validate().max(()=>3);
         validateAllForSuccess(fluent, [0,1,2,3]);
         validateAllForFailure(fluent, [4,100,"abc"]);
     });

@@ -90,6 +90,13 @@ export class AlphaTextValidator extends RegexValidator {
     }
     override expression?: string = "^([a-zA-Z\\s]{1,})$";
 }
+export class AlphaNumericTextValidator extends RegexValidator {
+    constructor(fieldName?:string, fieldDisplayName?:string)
+    {
+        super(fieldName, fieldDisplayName);
+    }
+    override expression?: string = "^([a-zA-Z0-9]{1,})$";
+}
 export class AlphaNumericHyphenValidator extends RegexValidator {
     constructor(fieldName?:string, fieldDisplayName?:string)
     {
@@ -143,44 +150,58 @@ export class NameTextValidator extends RegexValidator {
     }
     override expression?: string = "^([a-zA-Z\\s\\-']{1,})$";
 }
+export class NumberValidator extends RegexValidator {
+    constructor(fieldName?:string, fieldDisplayName?:string)
+    {
+        super(fieldName, fieldDisplayName);
+    }
+    override expression?: string = "^([0-9]{1,})$";
+    protected override fail(message?: string): boolean {
+        return this.fail("must be a number");
+    }
+}
 export class MinDateValidator extends ValidatorBase {
-    constructor(minDate:Date, fieldName?:string, fieldDisplayName?:string)
+    constructor(minDate:Date | Function, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.minDate = minDate;
     }
-    private minDate:Date;
+    private minDate:Date | Function;
     validate(input?: any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
         }
+        const minDate = this.getAsDate(this.minDate) as Date;
+        if(!this.hasValue(minDate)) return this.fail("is not able to be validated");
         if(typeof(input) === "string") {
             if(!DateHelper.isDateString(input as string)) return this.fail("is not a valid date");
-            return DateHelper.isSameOrAfter(DateHelper.parseISODate(input), this.minDate) ? this.succeed() : this.fail("must be the same or after the required date");    
+            return DateHelper.isSameOrAfter(DateHelper.parseISODate(input), minDate) ? this.succeed() : this.fail("must be the same or after the required date");    
         } else if(!DateHelper.isDateObject(input)) return this.fail("is not a valid date");
-        return DateHelper.isSameOrAfter(input,this.minDate) ? this.succeed() : this.fail("must be the same or after the required date");
+        return DateHelper.isSameOrAfter(input,minDate) ? this.succeed() : this.fail("must be the same or after the required date");
     }
 }
 export class MaxDateValidator extends ValidatorBase {
-    constructor(maxDate:Date, fieldName?:string, fieldDisplayName?:string)
+    constructor(maxDate:Date | Function, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.maxDate = maxDate;
     }
-    private maxDate:Date;
+    private maxDate:Date | Function;
     validate(input?: any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
         }
+        const maxDate = this.getAsDate(this.maxDate) as Date;
+        if(!this.hasValue(maxDate)) return this.fail("is not able to be validated");
         if(typeof(input) === "string") {
             if(!DateHelper.isDateString(input as string)) return this.fail("is not a valid date");
-            return DateHelper.isSameOrBefore(DateHelper.parseISODate(input), this.maxDate) ? this.succeed() : this.fail("must be the same or before the required date");    
+            return DateHelper.isSameOrBefore(DateHelper.parseISODate(input), maxDate) ? this.succeed() : this.fail("must be the same or before the required date");    
         } else if(!DateHelper.isDateObject(input)) return this.fail("is not a valid date");
-        return DateHelper.isSameOrBefore(input, this.maxDate) ? this.succeed() : this.fail("must be the same or before the required date");
+        return DateHelper.isSameOrBefore(input, maxDate) ? this.succeed() : this.fail("must be the same or before the required date");
     }
 }
 export class BetweenDateValidator extends AggregatedValidator {
-    constructor(minDate:Date, maxDate:Date, fieldName?:string, fieldDisplayName?:string)
+    constructor(minDate:Date | Function, maxDate:Date | Function, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.add(new MinDateValidator(minDate, fieldName, fieldDisplayName));
@@ -204,47 +225,48 @@ export class BooleanValidator extends ValidatorBase {
         return this.fail();
     }
 }
-
 export class ContainsTextValidator extends ValidatorBase {
-    constructor(searchText:string, ignoreCase:boolean = false, fieldName?:string, fieldDisplayName?:string)
+    constructor(searchText:string | Function, ignoreCase:boolean = false, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.searchText = searchText;
         this.ignoreCase = ignoreCase;
     }
     private ignoreCase:boolean;
-    private searchText:string;
+    private searchText:string | Function;
     validate(input?: any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
         }
         if(typeof(input) === "string") {
+            const searchText = this.getAsString(this.searchText);
             if(this.ignoreCase) {
-                return input.toLowerCase().includes(this.searchText.toLowerCase()) ? this.succeed() : this.fail("does not contain the required text");
+                return input.toLowerCase().includes(searchText.toLowerCase()) ? this.succeed() : this.fail("does not contain the required text");
             }
-            return input.includes(this.searchText) ? this.succeed() : this.fail("does not contain the required text");
+            return input.includes(searchText) ? this.succeed() : this.fail("does not contain the required text");
         } 
         return this.fail("is not a string");
     }
 }
 export class NotContainsTextValidator extends ValidatorBase {
-    constructor(searchText:string, ignoreCase:boolean = false, fieldName?:string, fieldDisplayName?:string)
+    constructor(searchText:string | Function, ignoreCase:boolean = false, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.searchText = searchText;
         this.ignoreCase = ignoreCase;
     }
     private ignoreCase:boolean;
-    private searchText:string;
+    private searchText:string | Function;
     validate(input?: any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
         }
+        const searchText = this.getAsString(this.searchText);
         if(typeof(input) === "string") {
             if(this.ignoreCase) {
-                return input.toLowerCase().includes(this.searchText.toLowerCase()) ? this.fail("contains invalid text") : this.succeed();
+                return input.toLowerCase().includes(searchText.toLowerCase()) ? this.fail("contains invalid text") : this.succeed();
             }
-            return input.includes(this.searchText) ? this.fail("contains invalid text") : this.succeed();
+            return input.includes(searchText) ? this.fail("contains invalid text") : this.succeed();
         } 
         return this.fail("is not a string");
     }
@@ -320,73 +342,85 @@ export class NotInArrayValidator extends ValidatorBase {
     }
 }
 export class LengthValidator extends ValidatorBase {
-    constructor(min?:number, max?:number, fieldName?:string, fieldDisplayName?:string)
+    constructor(min?:number | Function, max?:number | Function, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.min = min;
         this.max = max;
     }
-    private min?:number;
-    private max?:number;
+    private min?:number | Function | undefined;
+    private max?:number | Function | undefined;
     validate(input?: any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
         }
-        const min = this.min || 0;
+        const min = this.getAsNumber(this.min) as number || 0;
+        const max = this.getAsNumber(this.max) as number || 0;
         if(this.isString(input)) {
             const length = (input as string).length;
-            if(min && length < min) return this.fail();
-            if(this.max && length > this.max) return this.fail();
+            if(min && length < min) return this.fail(`must have a minimum length of ${min}`);
+            if(max && length > max) return this.fail(`must have a maximum length of ${max}`);
             return this.succeed();
         }
         else if(this.isArray(input)) {
             const length = (input as Array<any>).length;
             if(length < min) return this.fail();
-            if(this.max && length > this.max) return this.fail();
+            if(max && length > max) return this.fail();
+            return this.succeed();
+        }else if (this.isNumber(input)) {
+            const length = input.toString().length;
+            if(min && length < min) return this.fail(`must have a minimum length of ${min}`);
+            if(max && length > max) return this.fail(`must have a maximum length of ${max}`);
             return this.succeed();
         }
         return this.fail();
     }
 }
 export class MinValidator extends ValidatorBase {
-    constructor(min:number, fieldName?:string, fieldDisplayName?:string)
+    constructor(min:number | Function, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.min = min;
     }
-    private min:number;
+    private min:number | Function;
     validate(input?: any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
         }
-        const errorMessage = "is not a valid number";
+        let min = this.getAsNumber(this.min) as number;
+        if(!this.isNumber(min)) {
+            return this.fail("is not able to be validated");
+        }
         if(this.isNumber(input))  {
-            return input >= this.min ? this.succeed() : this.fail();
+            return input >= min ? this.succeed() : this.fail(`must be at least ${min}`);
         } else if (this.isString(input)) {
             if(!isNaN(parseFloat(input as string))) {
-                return parseFloat(input) >= this.min ? this.succeed() : this.fail();
+                return parseFloat(input) >= min ? this.succeed() : this.fail(`must be at least ${min}`);
             }
         }
         return this.fail();
     }
 }
 export class MaxValidator extends ValidatorBase {
-    constructor(max:number, fieldName?:string, fieldDisplayName?:string)
+    constructor(max:number | Function, fieldName?:string, fieldDisplayName?:string)
     {
         super(fieldName, fieldDisplayName);
         this.max = max;
     }
-    private max:number;
+    private max:number | Function;
     validate(input?: any): boolean {
         if(!this.hasValue(input)) {
             return this.succeed();
         }
-        const errorMessage = "is not a valid number";
+        const max = this.getAsNumber(this.max) as number;
+        if(!this.isNumber(max)) {
+            return this.fail("is not able to be validated");
+        }
         if(this.isNumber(input))  {
-            return input <= this.max ? this.succeed() : this.fail();
+            return input <= max ? this.succeed() : this.fail();
         } else if (this.isString(input)) {
             if(!isNaN(parseFloat(input as string))) {
-                return parseFloat(input) <= this.max ? this.succeed() : this.fail();
+                return parseFloat(input) <= max ? this.succeed() : this.fail();
             }
         }
         return this.fail();

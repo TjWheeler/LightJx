@@ -1,3 +1,4 @@
+import { DateHelper } from "../helpers/DateHelper";
 import { Validator } from "../Validator";
 
 
@@ -48,7 +49,41 @@ export abstract class ValidatorBase implements Validator {
     protected isNumber(input:any) : boolean {
         return typeof(input) === "number";
     }
+    protected isNumberString(input:any) : boolean {
+        if (typeof(input) === "string") {
+            let regEx = new RegExp(/^([0-9]{1,})$/);
+            return regEx.test(input);
+        }
+        return false;
+    }
     protected isArray(input:any) : boolean {
         return Array.isArray(input);
+    }
+    protected getAsNumber(input:string | number | Function | undefined) : number | undefined {
+        let value = input instanceof Function ? input() : input;
+        if(this.isNumberString(value)) {
+            return parseInt(value);
+        } else if(this.isNumber(value)) {
+            return value;
+        }
+        return undefined;
+    }
+    protected getAsString(input:string | number | Function) : string {
+        let value = input instanceof Function ? input() : input;
+        if(this.isNumber(value)) {
+            return value.toString();
+        } else if(this.isString(value)) {
+            return value;
+        }
+        return "";
+    }
+    protected getAsDate(input:string | Date | Function) : Date | undefined {
+        let value = input instanceof Function ? input() : input;
+        if(DateHelper.isDateObject(value)) {
+            return value;
+        } else if(DateHelper.isDateString(value)) {
+            return DateHelper.parseISODate(value);
+        }
+        return undefined;
     }
 }
