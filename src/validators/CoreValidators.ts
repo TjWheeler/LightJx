@@ -146,7 +146,7 @@ export class NumberValidator extends ValidatorBase {
         if (!this.hasValue(input)) {
             return this.succeed();
         }
-        return this.isNumberString(input) ? this.succeed() : this.fail("is not a valid number");
+        return this.isNumber(input) || this.isNumberString(input) ? this.succeed() : this.fail("is not a valid number");
     }
 }
 export class MinDateValidator extends ValidatorBase {

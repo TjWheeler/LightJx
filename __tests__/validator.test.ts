@@ -155,6 +155,16 @@ describe('Int validator', ()=>{
     testAllForFailure(getValidator(), [1.1,1.01,"123.0","abc", {}, false, true]);
   });
 });
+describe('Number validator', ()=>{
+  let getValidator = () => new v.NumberValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), [1,123,4000,"1","0","10001",1.0,"1.0"]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["abc123.0","abc", {}, false, true]);
+  });
+});
 describe('Float validator', ()=>{
   let getValidator = () => new v.FloatValidator();
   test('success cases', () => {

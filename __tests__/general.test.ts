@@ -33,4 +33,8 @@ describe('general implementation', () => {
         expect(validator.validate("-1234").isValid).toBe(true);
         expect(validator.validate("-100").isValid).toBe(true);
     });
+    test('numbers', () => {
+        let validator = validate().required().asNumber();
+        expect(validator.validate("1").isValid).toBe(true);
+    });
 });
