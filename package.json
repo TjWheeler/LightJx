@@ -12,6 +12,7 @@
     "test:watch": "jest --watch",
     "test:validators": "jest __tests__/validator.test.ts",
     "test:fluent": "jest __tests__/fluentapi.test.ts",
+    "test:general": "jest __tests__/general.test.ts",
     "prerelease": "npm pack",
     "debug": "webpack --config webpack.config.js --mode development",
     "prepare": "webpack --config webpack.config.js --mode production",

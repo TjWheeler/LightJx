@@ -10,7 +10,7 @@ npm i lightjx --save
 ```javascript
 import { Validate } from 'lightjx';
 
-let validator = Validate.field("MyField","Display Name").asPhoneNumber();
+let validator = Validate.field("MyField","Display Name").required().asPhoneNumber();
 validator.validate("This is the user input");
 if(!validator.isValid) {
     console.error(validator.errorMessage);
@@ -47,8 +47,8 @@ if(!emailValidator.isValid) {
 ```
 
 ## Using a custom regular expression
-This validator is not using the _required_ validator, so if there is no input the isValid propertywill be true.
-Most validators will suceed if no user input unless *.required()* is used.
+This validator is not using the _required_ validator, so if there is no input the isValid property will be true.
+Most validators will succeed if no user input unless *.required()* is used.
 
 ```javascript
 import { Validate } from 'lightjx';
@@ -60,11 +60,44 @@ if(!validator.isValid) {
 }
 ```
 
+## Using a function to defer validtaion
+Sometimes, you might want to validate using information from another source, such as a different field in the form.  Some validators allow a function to be used instead of the comparison value, these are:
+- MinValidator
+- MaxValidator
+- MinDateValidator
+- BetweenDateValidator
+- ContainsTextValidator
+- NotContainsTextValidator
+- LengthValidator
+Passing in a function will allow more advanced validation that adjusts to changing form data.
+
+```javascript
+import { Validate } from 'lightjx';
+
+let validator = Validate.field("MyField","Display Name").min(() => yourFormState.values.minCapacity);
+validator.validate(100);
+if(!validator.isValid) {
+    console.error(validator.errorMessage);
+}
+```
+
+## Validate.field and Validate.define
+In general, if you want to create user friendly validation messages, use the `Validate.field` function as this allows you to pass in control and display name values.
+If you want to just create validation rules and ignore field names, you can use `Validate.define`
+
+```javascript
+//Using field
+let validator = Validate.field("username", "Your username").required().asAlphaText().hasMaxLength(5);
+//Using Define
+let validator = Validate.define().required().asAlphaText().hasMaxLength(5);
+```
+
 ## Available commands
 
 - with(validator:Validator)
 - withExpression(expression:string | RegExp)
 - asAlphaText()
+- asAlphaNumericText()
 - asAlphaNumericHyphenText()
 - asName()
 - asPhoneNumber()

@@ -16,4 +16,21 @@ describe('general implementation', () => {
         expect(validator.validate("12345").isValid).toBe(true);
         expect(validator.validate("123456").isValid).toBe(false);
     });
+    test('negative numbers', () => {
+        let validator = validate().required().asNumber();
+        expect(validator.validate("1234").isValid).toBe(true);
+        expect(validator.validate("-1234").isValid).toBe(true);
+    });
+    test('min and negative numbers', () => {
+        let validator = validate().required().asNumber().min(()=>"-100");
+        expect(validator.validate("1234").isValid).toBe(true);
+        expect(validator.validate("-1234").isValid).toBe(false);
+        expect(validator.validate("-100").isValid).toBe(true);
+    });
+    test('max and negative numbers', () => {
+        let validator = validate().required().asNumber().max(()=>"-100");
+        expect(validator.validate("1234").isValid).toBe(false);
+        expect(validator.validate("-1234").isValid).toBe(true);
+        expect(validator.validate("-100").isValid).toBe(true);
+    });
 });
