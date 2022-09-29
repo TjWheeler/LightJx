@@ -121,32 +121,31 @@ export class ValidatorFluent {
         this.add(new Validators.BetweenDateValidator(minDate, maxDate, this.fieldName, this.displayName));
         return this;
     }
-    public isBoolean(): ValidatorFluent {
+    public asBoolean(): ValidatorFluent {
         this.add(new Validators.BooleanValidator(this.fieldName, this.displayName));
         return this;
     }
-    
     public containsText(searchText:string | Function, ignoreCase:boolean = false): ValidatorFluent {
         this.add(new Validators.ContainsTextValidator(searchText, ignoreCase, this.fieldName, this.displayName));
         return this;
     }
-    public isInt(): ValidatorFluent {
+    public asInt(): ValidatorFluent {
         this.add(new Validators.IntValidator(this.fieldName, this.displayName));
         return this;
     }
-    public isFloat(): ValidatorFluent {
+    public asFloat(): ValidatorFluent {
         this.add(new Validators.FloatValidator(this.fieldName, this.displayName));
         return this;
     }
-    public isGuid(): ValidatorFluent {
+    public asGuid(): ValidatorFluent {
         this.add(new Validators.GuidValidator(this.fieldName, this.displayName));
         return this;
     }
-    public isHexColor(): ValidatorFluent {
+    public asHexColor(): ValidatorFluent {
         this.add(new Validators.HexColorValidator(this.fieldName, this.displayName));
         return this;
     }
-    public isUrl(): ValidatorFluent {
+    public asUrl(): ValidatorFluent {
         this.add(new Validators.UrlValidator(this.fieldName, this.displayName));
         return this;
     }

@@ -81,7 +81,7 @@ describe('fluent api', ()=>{
         validateAllForFailure(fluent, [DateHelper.addSeconds(maxDate, 1), DateHelper.subtractSeconds(minDate, 1)]);
     });
     test('isBoolean', () => {
-        let fluent = validate().isBoolean();
+        let fluent = validate().asBoolean();
         validateAllForSuccess(fluent, [true,false,"true","false"]);
         validateAllForFailure(fluent, ["#$@",{},1,0,"yes","no"]);
     });
@@ -99,12 +99,12 @@ describe('fluent api', ()=>{
         
     });
     test('isInt', () => {
-        let fluent = validate().isInt();
+        let fluent = validate().asInt();
         validateAllForSuccess(fluent, [1,123,"1","123"]);
         validateAllForFailure(fluent, [1.1,"1.2","#$@",{},"yes","no"]);
     });
     test('isFloat', () => {
-        let fluent = validate().isFloat();
+        let fluent = validate().asFloat();
         validateAllForSuccess(fluent, [1.1,"1.2",1,123,"1","123"]);
         validateAllForFailure(fluent, ["1.1abc","#$@",{},"yes","no"]);
     });
@@ -114,12 +114,12 @@ describe('fluent api', ()=>{
         validateAllForFailure(fluent, ["1.1abc","#$@",{},"yes","no","@mail.com",true,false,0,123]);
     });
     test('isGuid', () => {
-        let fluent = validate().isGuid();
+        let fluent = validate().asGuid();
         validateAllForSuccess(fluent, ["{027FE16E-70FE-41B1-B2E7-6E3818564F23}","027FE16E-70FE-41B1-B2E7-6E3818564F23"]);
         validateAllForFailure(fluent, ["{027FE16E-70FE-41B1-B2E7-6E3818564F3}","027FE16Ea70FE-41B1-B2E7-6E3818564F23"]);
     });
     test('isHexColor', () => {
-        let fluent = validate().isHexColor();
+        let fluent = validate().asHexColor();
         validateAllForSuccess(fluent, ["#ffffff","#fff"]);
         validateAllForFailure(fluent, ["fff",3004085616, true, false, 0, 1,"0","1"]);
     });
