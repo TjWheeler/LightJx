@@ -146,6 +146,10 @@ export class ValidatorFluent {
         this.add(new Validators.HexColorValidator(this.fieldName, this.displayName));
         return this;
     }
+    public isUrl(): ValidatorFluent {
+        this.add(new Validators.UrlValidator(this.fieldName, this.displayName));
+        return this;
+    }
     public in(items:Array<any>): ValidatorFluent {
         this.add(new Validators.InArrayValidator(items, this.fieldName, this.displayName));
         return this;

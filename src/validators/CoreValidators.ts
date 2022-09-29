@@ -267,7 +267,7 @@ export class FloatValidator extends ValidatorBase {
             if (/^[0-9.]{1,}$/.test(input) === false) {
                 return this.fail();
             }
-            return isNaN(parseFloat(input as string)) ? this.fail("is not a valid number") : this.succeed();
+            return isNaN(parseFloat(input as string)) ? this.fail("is not a valid floating point number") : this.succeed();
         }
         return this.fail();
     }
@@ -280,7 +280,7 @@ export class IntValidator extends ValidatorBase {
         if (!this.hasValue(input)) {
             return this.succeed();
         }
-        const errorMessage = "is not a valid number";
+        const errorMessage = "is not a valid whole number";
         if (this.isNumber(input)) return Number.isInteger(input as number) ? this.succeed() : this.fail(errorMessage);
         if (this.isString(input)) {
             return (input as string).indexOf(".") !== -1 || isNaN(parseInt(input as string)) ? this.fail(errorMessage) : Number.isInteger(parseFloat(input as string)) ? this.succeed() : this.fail(errorMessage);
@@ -375,7 +375,7 @@ export class MinValidator extends ValidatorBase {
         } else if (this.isFloatString(input)) {
             return parseFloat(input) >= min ? this.succeed() : this.fail(`must be at least ${min}`);
         }
-        return this.fail();
+        return this.fail("is not the correct datatype for MinValidation (did you mean MinLength?)");
     }
 }
 export class MaxValidator extends ValidatorBase {
