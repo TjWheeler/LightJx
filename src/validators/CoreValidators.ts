@@ -61,18 +61,20 @@ export class AggregatedValidator extends ValidatorBase {
 }
 
 export class RegexValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
+    constructor(fieldName?: string, fieldDisplayName?: string, errorMessage: string="does not match the required format") {
         super(fieldName, fieldDisplayName);
+        this.customMessage = errorMessage;
     }
+    customMessage: string;
     expression?: string | RegExp;
     validate(input?: any): boolean {
         if (!this.hasValue(input)) {
             return this.succeed();
         }
         if (this.isString(input)) {
-            return this.test(input) ? this.succeed() : this.fail("does not match the required format");
+            return this.test(input) ? this.succeed() : this.fail(this.customMessage);
         } else if (this.isNumber(input)) {
-            return this.test(input.toString()) ? this.succeed() : this.fail("does not match the required format");
+            return this.test(input.toString()) ? this.succeed() : this.fail(this.customMessage);
         }
         else {
             log.warn(`The input for field ${this.fieldName} must be a string or a number to use this Validator`);
@@ -106,7 +108,7 @@ export class EmailValidator extends RegexValidator {
 }
 export class GuidValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+        super(fieldName, fieldDisplayName, "must be a valid GUID");
     }
     override expression?: string = "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$";
 }
@@ -118,9 +120,16 @@ export class HexColorValidator extends RegexValidator {
 }
 export class UrlValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+        super(fieldName, fieldDisplayName,"must be a valid URL");
     }
     override expression?: string = "^((((https?|http?)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|" +
+        "[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,]blank:)?$";
+}
+export class HttpsUrlValidator extends RegexValidator {
+    constructor(fieldName?: string, fieldDisplayName?: string) {
+        super(fieldName, fieldDisplayName, "must be a valid URL and start with https");
+    }
+    override expression?: string = "^(((https)://)(%[0-9A-Fa-f]{2}|" +
         "[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,]blank:)?$";
 }
 export class PhoneNumberValidator extends RegexValidator {

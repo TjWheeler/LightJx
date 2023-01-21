@@ -192,4 +192,9 @@ describe('fluent api', ()=>{
         validateAllForSuccess(fluent, ["+61 (4) 345 12345","123-12324","(04) 1234 5678", "+61 4 31 207 307"]);
         validateAllForFailure(fluent, ["J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
     });
+    test('asSecureUrl', () => {
+        let fluent = validate().asSecureUrl();
+        validateAllForSuccess(fluent, ["https://abc.com","https://www.abc.com"]);
+        validateAllForFailure(fluent, ["http://abc.com", "http://www.abc.com", "J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
+    });
 });

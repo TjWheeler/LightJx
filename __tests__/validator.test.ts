@@ -278,6 +278,16 @@ describe('Url validator', ()=>{
     testAllForFailure(getValidator(), ["htts://www.secure.com/default.htm","J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
   });
 });
+describe('Secure Url validator', ()=>{
+  let getValidator = () => new v.HttpsUrlValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), ["https://www.secure.com/default.htm", "https://otg.technology"]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["http://www.abc.net.au","htts://www.secure.com/default.htm","J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
+  });
+});
 describe('boolean validator', ()=>{
   let getValidator = () => new v.BooleanValidator();
   test('success cases', () => {

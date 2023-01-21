@@ -149,6 +149,10 @@ export class ValidatorFluent {
         this.add(new Validators.UrlValidator(this.fieldName, this.displayName));
         return this;
     }
+    public asSecureUrl(): ValidatorFluent {
+        this.add(new Validators.HttpsUrlValidator(this.fieldName, this.displayName));
+        return this;
+    }
     public in(items:Array<any>): ValidatorFluent {
         this.add(new Validators.InArrayValidator(items, this.fieldName, this.displayName));
         return this;
