@@ -158,6 +158,21 @@ export class NumberValidator extends ValidatorBase {
         return this.isNumber(input) || this.isNumberString(input) ? this.succeed() : this.fail("is not a valid number");
     }
 }
+export class DateValidator extends ValidatorBase {
+    constructor(fieldName?: string, fieldDisplayName?: string) {
+        super(fieldName, fieldDisplayName);
+    }
+    validate(input?: any): boolean {
+        if (!this.hasValue(input)) {
+            return this.succeed();
+        }
+        if (typeof (input) === "string") {
+            if (!DateHelper.isDateString(input as string)) return this.fail("is not a valid date");
+            return this.succeed();
+        } else if (!DateHelper.isDateObject(input)) return this.fail("is not a valid date");
+        return this.succeed();
+    }
+}
 export class MinDateValidator extends ValidatorBase {
     constructor(minDate: Date | Function, fieldName?: string, fieldDisplayName?: string) {
         super(fieldName, fieldDisplayName);

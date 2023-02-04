@@ -90,6 +90,16 @@ describe('AlphaNumericHyphen validator', ()=>{
     testAllForFailure(getValidator(), ["abc1!","123$%","\\abc","abc@$"] );
   });
 });
+describe('Date validator', ()=>{
+  let getValidator = () => new v.DateValidator();
+  test('success cases', () => {
+    testEmptySucceeds(getValidator);
+    testAllForSuccess(getValidator(), [ new Date().toISOString(), new Date(), DateHelper.addHours(new Date(), 24)]);
+  });
+  test('failure cases', () => {
+    testAllForFailure(getValidator(), ["baddata", 1234, {}, []]);
+  });
+});
 describe('MinDate validator', ()=>{
   const minDate = DateHelper.subtractSeconds(new Date(), 1);
   let getValidator = () => new v.MinDateValidator(minDate);

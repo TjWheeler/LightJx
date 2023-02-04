@@ -102,6 +102,7 @@ let validator = Validate.define().required().asAlphaText().hasMaxLength(5);
 - asName()
 - asPhoneNumber()
 - asEmail()
+- asDate()
 - isDateOnOrAfter(minDate:Date)
 - isDateOnOrBefore(maxDate:Date)
 - isDateBetween(minDate:Date, maxDate:Date)

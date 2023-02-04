@@ -93,6 +93,10 @@ export class ValidatorFluent {
         this.add(new Validators.AlphaNumericHyphenValidator(this.fieldName, this.displayName));
         return this;
     }
+    public asDate(): ValidatorFluent {
+        this.add(new Validators.DateValidator(this.fieldName, this.displayName));
+        return this;
+    }
     public asName(): ValidatorFluent {
         this.add(new Validators.NameTextValidator(this.fieldName, this.displayName));
         return this;
