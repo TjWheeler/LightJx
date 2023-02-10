@@ -13,13 +13,17 @@ export abstract class ValidatorBase implements Validator {
     fieldName?: string;
     fieldDisplayName?: string;
     expression?: string | RegExp = undefined;
+    public reset() {
+        this.errorMessage = "";
+        this.isValid = false;
+    }
     abstract validate(input?: any): boolean;
     protected hasValue(input: any): boolean {
         return !(input === null || input === "" || typeof (input) === typeof (undefined) || (typeof (input) === "number" && isNaN(input)));
     }
     protected fail(message: string = "is not valid"): boolean {
         this.isValid = false;
-        this.errorMessage = `${this.fieldDisplayName || this.fieldName} ${message}`;
+        this.errorMessage = `${this.fieldDisplayName || this.fieldName || this.defaultFieldName} ${message}`;
         return false;
     }
     protected succeed(): boolean {

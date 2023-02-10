@@ -4,5 +4,6 @@ export interface Validator {
     input?: any;
     isValid: boolean;
     errorMessage: string;
+    reset():void;
     validate(input?:any): boolean;
 }

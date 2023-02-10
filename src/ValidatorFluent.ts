@@ -19,11 +19,21 @@ export class ValidatorFluent {
     private add(validator: Validator) {
         this.validators.push(validator);
     }
-    public setName(name:string, displayName?:string) {
+    public setName(name:string, displayName?:string): ValidatorFluent {
         this.validators.forEach((validator:Validator)=>{
             validator.fieldName = name;
             if(displayName) validator.fieldDisplayName = displayName;
         });
+        return this.reset();
+    }
+    public reset() : ValidatorFluent {
+        this.errorMessage = "";
+        this.errorMessages = [];
+        this.isValid = false;
+        this.validators.forEach((validator:Validator)=>{
+            validator.reset();
+        });
+        return this;
     }
     public validate(input: any): ValidatorFluent {
         this.input = input;
@@ -93,6 +103,7 @@ export class ValidatorFluent {
         this.add(new Validators.AlphaNumericHyphenValidator(this.fieldName, this.displayName));
         return this;
     }
+    
     public asDate(): ValidatorFluent {
         this.add(new Validators.DateValidator(this.fieldName, this.displayName));
         return this;
