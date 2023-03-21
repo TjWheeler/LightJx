@@ -7,6 +7,7 @@ export abstract class ValidatorBase implements Validator {
         this.fieldName = fieldName;
         this.fieldDisplayName = fieldDisplayName;
     }
+    public abstract name:string;
     defaultFieldName: string = "The Field";
     isValid: boolean = false;
     errorMessage: string = "";

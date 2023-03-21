@@ -1,7 +1,7 @@
 import { DateHelper } from '../src/helpers/DateHelper';
 import {Validate} from '../src/Validate';
 import { ValidatorFluent } from '../src/ValidatorFluent';
-import { RequiredValidator } from '../src/validators/CoreValidators';
+import { MaxValidator, MinValidator, RequiredValidator } from '../src/validators/CoreValidators';
 import { logOptions } from '../src/validators/CoreValidators';
 
 logOptions.enabled = false;
@@ -196,5 +196,12 @@ describe('fluent api', ()=>{
         let fluent = validate().asSecureUrl();
         validateAllForSuccess(fluent, ["https://abc.com","https://www.abc.com"]);
         validateAllForFailure(fluent, ["http://abc.com", "http://www.abc.com", "J@o", "Ted$", true, false, 0, "0","ASDF12" ]);
+    });
+    test('hasValidator', () => {
+        let fluent = validate().asNumber().max(1);
+        let hasValidator = fluent.hasValidator("MaxValidator");
+        expect(hasValidator).toBe(true);
+        hasValidator = fluent.hasValidator("MinValidator");
+        expect(hasValidator).toBe(false);
     });
 });

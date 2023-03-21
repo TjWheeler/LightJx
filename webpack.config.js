@@ -1,7 +1,7 @@
 const path = require('path');
 const DtsBundleWebpack = require('dts-bundle-webpack');
 var webpack = require('webpack');
-
+const TerserPlugin = require('terser-webpack-plugin');
 
 var version = JSON.stringify(require("./package.json").version).replace(/\"/g, '');
 var bannerOptions = {
@@ -26,6 +26,9 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts'],
   },
+  optimization: {
+    mangleExports: false
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -35,7 +38,17 @@ module.exports = {
       type: 'umd',
     },
   },
-
+  optimization: {
+    minimize: true,
+    minimizer: [
+        new TerserPlugin({
+            terserOptions: {
+                keep_classnames: true,
+                keep_fnames: true
+            }
+          })
+        ]
+  },
   plugins: [
   //  new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/, }),
     new DtsBundleWebpack({

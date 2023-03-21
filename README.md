@@ -120,5 +120,6 @@ let validator = Validate.define().required().asAlphaText().hasMaxLength(5);
 - isNot(value:any)
 - hasLengthRange(min?:number, max?:number)
 - hasLength(length:number)
+- hasNoBrackets()
 - min(min:number)
 - max(max:number)

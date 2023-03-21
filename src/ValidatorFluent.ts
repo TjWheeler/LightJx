@@ -16,8 +16,23 @@ export class ValidatorFluent {
     public errorMessage: string = "";
     public errorMessages: string[] = [];
     private validators: Validator[] = [];
+    //private validatorNames: string[] = [];
     private add(validator: Validator) {
         this.validators.push(validator);
+        //this.validatorNames.push(validator.constructor.name);
+    }
+    /**
+     * Check to see if a specific Validator has already been added.
+     * @param type A validator eg; typeof MaxValidator
+     * @returns 
+     */
+    public hasValidator(typeName: string) : boolean {
+        if(typeName) {
+            for(let i =0; i < this.validators.length; i++) {
+                if(this.validators[i].constructor.name == typeName) return true;
+            }
+        }
+        return false;
     }
     public setName(name:string, displayName?:string): ValidatorFluent {
         this.validators.forEach((validator:Validator)=>{
@@ -134,6 +149,18 @@ export class ValidatorFluent {
     }
     public isDateBetween(minDate:Date, maxDate:Date): ValidatorFluent {
         this.add(new Validators.BetweenDateValidator(minDate, maxDate, this.fieldName, this.displayName));
+        return this;
+    }
+    /**
+    * This should not be replied upon.  Server validation should check for XSS.
+    * Blacklists angle brackets and encoded representation only.
+    * This method is for improved user experience only.
+    */
+    public hasNoBrackets(): ValidatorFluent {
+        this.add(new Validators.NotContainsTextValidator("<", true, this.fieldName, this.displayName));
+        this.add(new Validators.NotContainsTextValidator(">", true, this.fieldName, this.displayName));
+        this.add(new Validators.NotContainsTextValidator("\\%3C", true, this.fieldName, this.displayName));
+        this.add(new Validators.NotContainsTextValidator("\\%3E", true, this.fieldName, this.displayName));
         return this;
     }
     public asBoolean(): ValidatorFluent {

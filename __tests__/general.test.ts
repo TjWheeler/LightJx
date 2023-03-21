@@ -37,4 +37,9 @@ describe('general implementation', () => {
         let validator = validate().required().asNumber();
         expect(validator.validate("1").isValid).toBe(true);
     });
+    test('xss', () => {
+        let validator = validate().required().hasNoBrackets();
+        expect(validator.validate("This is a good string! With 123-456, and '.").isValid).toBe(true);
+        expect(validator.validate("This is a bad string - <img src=''/>").isValid).toBe(false);
+    });
 });
