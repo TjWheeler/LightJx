@@ -171,6 +171,10 @@ export class ValidatorFluent {
         this.add(new Validators.ContainsTextValidator(searchText, ignoreCase, this.fieldName, this.displayName));
         return this;
     }
+    public doesNotContainText(searchText:string | Function, ignoreCase:boolean = false): ValidatorFluent {
+        this.add(new Validators.NotContainsTextValidator(searchText, ignoreCase, this.fieldName, this.displayName));
+        return this;
+    }
     public asInt(): ValidatorFluent {
         this.add(new Validators.IntValidator(this.fieldName, this.displayName));
         return this;

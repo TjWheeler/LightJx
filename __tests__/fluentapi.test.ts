@@ -79,6 +79,8 @@ describe('fluent api', ()=>{
         let fluent = validate().isDateBetween(minDate,maxDate);
         validateAllForSuccess(fluent, [minDate,maxDate, DateHelper.addMinutes(minDate, 1)]);
         validateAllForFailure(fluent, [DateHelper.addSeconds(maxDate, 1), DateHelper.subtractSeconds(minDate, 1)]);
+        expect(fluent.validate(DateHelper.addSeconds(maxDate, 1)).isValid).toBe(false);
+        expect(fluent.validate(DateHelper.addSeconds(maxDate, 1)).errorMessage.indexOf('My Field') > -1).toBe(true);
     });
     test('isBoolean', () => {
         let fluent = validate().asBoolean();
@@ -96,6 +98,19 @@ describe('fluent api', ()=>{
         fluent = validate().containsText(searchText, true);
         validateAllForSuccess(fluent, [`abc${searchText}abc`,`----${searchText.toUpperCase()}`,`abc${searchText.toUpperCase()}abc`, searchText.toUpperCase()]);
         validateAllForFailure(fluent, [`abcabc`,true,false,"true","false","#$@",{},1,0,"yes","no"]);
+        
+    });
+    test('doesNotContainText', () => {
+        const searchText = "aBc123";
+        let fluent = validate().doesNotContainText(searchText, false);
+        validateAllForFailure(fluent, [`----${searchText}`,`abc${searchText}abc`, searchText]);
+        validateAllForSuccess(fluent, [`abc${searchText.toUpperCase()}abc`,"true","false","#$@","yes","no"]);
+        fluent = validate().doesNotContainText(()=>searchText, false);
+        validateAllForFailure(fluent, [`----${searchText}`,`abc${searchText}abc`, searchText]);
+        validateAllForSuccess(fluent, [`abc${searchText.toUpperCase()}abc`,"true","false","#$@","yes","no"]);
+        fluent = validate().doesNotContainText(searchText, true);
+        validateAllForFailure(fluent, [`abc${searchText}abc`,`----${searchText.toUpperCase()}`,`abc${searchText.toUpperCase()}abc`, searchText.toUpperCase()]);
+        validateAllForSuccess(fluent, [`abcabc`,"true","false","#$@","yes","no"]);
         
     });
     test('isInt', () => {
