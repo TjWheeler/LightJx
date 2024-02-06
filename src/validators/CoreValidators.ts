@@ -204,9 +204,9 @@ export class MinDateValidator extends ValidatorBase {
         if (!this.hasValue(minDate)) return this.fail("is not able to be validated");
         if (typeof (input) === "string") {
             if (!DateHelper.isDateString(input as string)) return this.fail("is not a valid date");
-            return DateHelper.isSameOrAfter(DateHelper.parseISODate(input), minDate) ? this.succeed() : this.fail("must be the same or after the required date");
+            return DateHelper.isSameOrAfter(DateHelper.parseISODate(input), minDate) ? this.succeed() : this.fail("must be the same or after " + minDate.toDateString());
         } else if (!DateHelper.isDateObject(input)) return this.fail("is not a valid date");
-        return DateHelper.isSameOrAfter(input, minDate) ? this.succeed() : this.fail("must be the same or after the required date");
+        return DateHelper.isSameOrAfter(input, minDate) ? this.succeed() : this.fail("must be the same or after " + minDate.toDateString());
     }
 }
 export class MaxDateValidator extends ValidatorBase {
@@ -224,9 +224,9 @@ export class MaxDateValidator extends ValidatorBase {
         if (!this.hasValue(maxDate)) return this.fail("is not able to be validated");
         if (typeof (input) === "string") {
             if (!DateHelper.isDateString(input as string)) return this.fail("is not a valid date");
-            return DateHelper.isSameOrBefore(DateHelper.parseISODate(input), maxDate) ? this.succeed() : this.fail("must be the same or before the required date");
+            return DateHelper.isSameOrBefore(DateHelper.parseISODate(input), maxDate) ? this.succeed() : this.fail("must be the same or before " + maxDate.toDateString());
         } else if (!DateHelper.isDateObject(input)) return this.fail("is not a valid date");
-        return DateHelper.isSameOrBefore(input, maxDate) ? this.succeed() : this.fail("must be the same or before the required date");
+        return DateHelper.isSameOrBefore(input, maxDate) ? this.succeed() : this.fail("must be the same or before " + maxDate.toDateString());
     }
 }
 export class BetweenDateValidator extends AggregatedValidator {
