@@ -37,6 +37,7 @@ module.exports = {
       name: 'lightjx',
       type: 'umd',
     },
+    globalObject: 'globalThis'
   },
   optimization: {
     minimize: true,
