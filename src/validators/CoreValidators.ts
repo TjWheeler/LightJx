@@ -197,6 +197,10 @@ export class NumberValidator extends ValidatorBase {
     }
     name = "NumberValidator";
     validate(input?: any): boolean {
+        // Special handling for NaN - treat it as invalid input, not as "no value"
+        if (typeof input === "number" && isNaN(input)) {
+            return this.fail("is not a valid number");
+        }
         if (!this.hasValue(input)) {
             return this.succeed();
         }
@@ -336,10 +340,16 @@ export class FloatValidator extends ValidatorBase {
     }
     name = "FloatValidator";
     validate(input?: any): boolean {
+        // Special handling for NaN - treat it as invalid input, not as "no value"
+        if (typeof input === "number" && isNaN(input)) {
+            return this.fail("is not a valid floating point number");
+        }
         if (!this.hasValue(input)) {
             return this.succeed();
         }
-        if (this.isNumber(input)) return this.succeed();
+        if (this.isNumber(input)) {
+            return this.succeed();
+        }
         if (this.isString(input)) {
             if (/^[0-9.]{1,}$/.test(input) === false) {
                 return this.fail("is not a valid floating point number");
@@ -355,11 +365,17 @@ export class IntValidator extends ValidatorBase {
     }
     name = "IntValidator";
     validate(input?: any): boolean {
+        // Special handling for NaN - treat it as invalid input, not as "no value"
+        if (typeof input === "number" && isNaN(input)) {
+            return this.fail("is not a valid whole number");
+        }
         if (!this.hasValue(input)) {
             return this.succeed();
         }
         const errorMessage = "is not a valid whole number";
-        if (this.isNumber(input)) return Number.isInteger(input as number) ? this.succeed() : this.fail(errorMessage);
+        if (this.isNumber(input)) {
+            return Number.isInteger(input as number) ? this.succeed() : this.fail(errorMessage);
+        }
         if (this.isString(input)) {
             return (input as string).indexOf(".") !== -1 || isNaN(parseInt(input as string)) ? this.fail(errorMessage) : Number.isInteger(parseFloat(input as string)) ? this.succeed() : this.fail(errorMessage);
         }
@@ -451,6 +467,10 @@ export class MinValidator extends ValidatorBase {
     name = "MinValidator";
     private min: number | Function;
     validate(input?: any): boolean {
+        // Special handling for NaN - treat it as invalid input, not as "no value"
+        if (typeof input === "number" && isNaN(input)) {
+            return this.fail("is not a valid number for comparison");
+        }
         if (!this.hasValue(input)) {
             return this.succeed();
         }
@@ -476,6 +496,10 @@ export class MaxValidator extends ValidatorBase {
     name = "MaxValidator";
     private max: number | Function;
     validate(input?: any): boolean {
+        // Special handling for NaN - treat it as invalid input, not as "no value"
+        if (typeof input === "number" && isNaN(input)) {
+            return this.fail("is not a valid number for comparison");
+        }
         if (!this.hasValue(input)) {
             return this.succeed();
         }

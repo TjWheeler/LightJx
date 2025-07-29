@@ -116,12 +116,17 @@ describe('fluent api', ()=>{
     test('isInt', () => {
         let fluent = validate().asInt();
         validateAllForSuccess(fluent, [1,123,"1","123"]);
-        validateAllForFailure(fluent, [1.1,"1.2","#$@",{},"yes","no"]);
+        validateAllForFailure(fluent, [1.1,"1.2","#$@",{},"yes","no", parseInt("abc")]);
     });
     test('isFloat', () => {
         let fluent = validate().asFloat();
         validateAllForSuccess(fluent, [1.1,"1.2",1,123,"1","123"]);
-        validateAllForFailure(fluent, ["1.1abc","#$@",{},"yes","no"]);
+        validateAllForFailure(fluent, ["1.1abc","#$@",{},"yes","no",parseInt("abc")]);
+    });
+    test('asNumber', () => {
+        let fluent = validate().asNumber();
+        validateAllForSuccess(fluent, [1, 123, "1", "123", 1.5, "1.5", -10, "-10", 0, "0"]);
+        validateAllForFailure(fluent, ["abc", "#$@", {}, "yes", "no", true, false, NaN, parseInt("abc"), "12.34.56", "123abc"]);
     });
     test('isEmail', () => {
         let fluent = validate().asEmail();
@@ -199,12 +204,12 @@ describe('fluent api', ()=>{
     test('min', () => {
         let fluent = validate().min(()=>3);
         validateAllForSuccess(fluent, [3,4,100]);
-        validateAllForFailure(fluent, [0,1,2]);
+        validateAllForFailure(fluent, [0,1,2, NaN, parseInt("abc")]);
     });
     test('max', () => {
         let fluent = validate().max(()=>3);
         validateAllForSuccess(fluent, [0,1,2,3]);
-        validateAllForFailure(fluent, [4,100,"abc"]);
+        validateAllForFailure(fluent, [4,100,"abc", NaN, parseInt("abc")]);
     });
     test('asName', () => {
         let fluent = validate().asName();

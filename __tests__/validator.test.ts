@@ -162,7 +162,7 @@ describe('Int validator', ()=>{
     testAllForSuccess(getValidator(), [1,123,4000,"1","0","10001",1.0]);
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), [1.1,1.01,"123.0","abc", {}, false, true]);
+    testAllForFailure(getValidator(), [1.1,1.01,"123.0","abc", {}, false, true, NaN, parseInt("abc")]);
   });
 });
 describe('Number validator', ()=>{
@@ -172,7 +172,7 @@ describe('Number validator', ()=>{
     testAllForSuccess(getValidator(), [1,123,4000,"1","0","10001",1.0,"1.0"]);
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), ["abc123.0","abc", {}, false, true]);
+    testAllForFailure(getValidator(), ["abc123.0","abc", {}, false, true, NaN, parseInt("abc")]);
   });
 });
 describe('Float validator', ()=>{
@@ -182,7 +182,7 @@ describe('Float validator', ()=>{
     testAllForSuccess(getValidator(), [0.1234,1.1,123,4000,"1","0","10001",1.1220]);
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), ["abc", {}, false, true]);
+    testAllForFailure(getValidator(), ["abc", {}, false, true, NaN, parseInt("abc")]);
   });
 });
 describe('Email validator', ()=>{
@@ -255,7 +255,7 @@ describe('Min validator', ()=>{
     testAllForSuccess(getValidator(), [5,6,100,"5","6",5.100,"5.234"]);
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), [1,2,3,"1","2","abc",true, false, {}]);
+    testAllForFailure(getValidator(), [1,2,3,"1","2","abc",true, false, {}, NaN, parseInt("abc")]);
   });
 });
 describe('Max validator', ()=>{
@@ -265,7 +265,7 @@ describe('Max validator', ()=>{
     testAllForSuccess(getValidator(), [1,5,"1","5",]);
   });
   test('failure cases', () => {
-    testAllForFailure(getValidator(), [6,100,"6",5.100,"5.234",true, false, {}]);
+    testAllForFailure(getValidator(), [6,100,"6",5.100,"5.234",true, false, {}, NaN, parseInt("abc")]);
   });
 });
 describe('NameText validator', ()=>{
