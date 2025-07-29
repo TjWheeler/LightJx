@@ -13,6 +13,8 @@
       "preserveConstEnums": true,
       "noImplicitAny": true,
       "declaration": true,
+      "declarationMap": true,
+      "declarationDir": "dist"
     },
     "include": ["src", "../__tests__"],
   }

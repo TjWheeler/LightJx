@@ -1,5 +1,4 @@
 const path = require('path');
-const DtsBundleWebpack = require('dts-bundle-webpack');
 var webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -52,14 +51,6 @@ module.exports = {
   },
   plugins: [
   //  new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/, }),
-    new DtsBundleWebpack({
-      name: 'lightjx',
-      main: './build/**/*.d.ts',
-      out: '../dist/index.d.ts',
-      removeSource: true,
-      outputAsModuleFolder: true,
-      headerPath: "header.txt"
-    }),
     new webpack.BannerPlugin(bannerOptions),
     
   ]
