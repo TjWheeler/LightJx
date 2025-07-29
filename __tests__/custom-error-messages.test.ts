@@ -13,7 +13,7 @@ describe('Custom Error Messages - Core Validators', () => {
         
         validator.validate("");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('RequiredValidator without custom error message uses default', () => {
@@ -30,7 +30,7 @@ describe('Custom Error Messages - Core Validators', () => {
         
         validator.validate("invalid");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('BooleanValidator without custom error message uses default', () => {
@@ -47,7 +47,7 @@ describe('Custom Error Messages - Core Validators', () => {
         
         validator.validate("abc123");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('AlphaTextValidator without custom error message uses default', () => {
@@ -64,7 +64,7 @@ describe('Custom Error Messages - Core Validators', () => {
         
         validator.validate("invalid-email");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('PhoneNumberValidator with custom error message', () => {
@@ -73,7 +73,7 @@ describe('Custom Error Messages - Core Validators', () => {
         
         validator.validate("abc");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 });
 
@@ -84,7 +84,7 @@ describe('Custom Error Messages - Number Validators', () => {
         
         validator.validate("abc");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('IntValidator with custom error message', () => {
@@ -93,7 +93,7 @@ describe('Custom Error Messages - Number Validators', () => {
         
         validator.validate("12.5");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('FloatValidator with custom error message', () => {
@@ -102,7 +102,7 @@ describe('Custom Error Messages - Number Validators', () => {
         
         validator.validate("abc");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('MinValidator with custom error message', () => {
@@ -111,7 +111,7 @@ describe('Custom Error Messages - Number Validators', () => {
         
         validator.validate(5);
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('MaxValidator with custom error message', () => {
@@ -120,7 +120,7 @@ describe('Custom Error Messages - Number Validators', () => {
         
         validator.validate(15);
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 });
 
@@ -131,7 +131,7 @@ describe('Custom Error Messages - Array Validators', () => {
         
         validator.validate("yellow");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('InArrayValidator without custom error message shows allowed values', () => {
@@ -148,7 +148,7 @@ describe('Custom Error Messages - Array Validators', () => {
         
         validator.validate("admin");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('NotInArrayValidator without custom error message shows forbidden values', () => {
@@ -167,7 +167,7 @@ describe('Custom Error Messages - Text Validators', () => {
         
         validator.validate("abc123");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('ContainsTextValidator without custom error message shows required text', () => {
@@ -184,7 +184,7 @@ describe('Custom Error Messages - Text Validators', () => {
         
         validator.validate("this is spam");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('NotContainsTextValidator without custom error message shows forbidden text', () => {
@@ -203,7 +203,7 @@ describe('Custom Error Messages - Length Validators', () => {
         
         validator.validate("abc");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('LengthValidator without custom error message shows specific requirement', () => {
@@ -222,7 +222,7 @@ describe('Custom Error Messages - Date Validators', () => {
         
         validator.validate("invalid-date");
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('MinDateValidator with custom error message', () => {
@@ -232,7 +232,7 @@ describe('Custom Error Messages - Date Validators', () => {
         
         validator.validate(new Date('2022-12-31'));
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 
     test('MaxDateValidator with custom error message', () => {
@@ -242,6 +242,6 @@ describe('Custom Error Messages - Date Validators', () => {
         
         validator.validate(new Date('2024-01-01'));
         expect(validator.isValid).toBe(false);
-        expect(validator.errorMessage).toBe(`${fieldDisplayName} ${customMessage}`);
+        expect(validator.errorMessage).toBe(customMessage);
     });
 });

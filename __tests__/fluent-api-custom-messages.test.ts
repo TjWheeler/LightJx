@@ -12,7 +12,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asBoolean() with custom error message', () => {
@@ -22,7 +22,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("invalid");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asEmail() with custom error message', () => {
@@ -32,7 +32,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("invalid-email");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asPhoneNumber() with custom error message', () => {
@@ -42,7 +42,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asAlphaText() with custom error message', () => {
@@ -52,7 +52,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc123");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asAlphaNumericText() with custom error message', () => {
@@ -62,7 +62,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc-123");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asAlphaNumericHyphenText() with custom error message', () => {
@@ -72,7 +72,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc@123");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asName() with custom error message', () => {
@@ -82,7 +82,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("Name123");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
     });
 
@@ -94,7 +94,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asInt() with custom error message', () => {
@@ -104,7 +104,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("12.5");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asFloat() with custom error message', () => {
@@ -114,7 +114,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('min() with custom error message', () => {
@@ -124,7 +124,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate(5);
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('max() with custom error message', () => {
@@ -134,7 +134,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate(15);
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
     });
 
@@ -146,7 +146,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("actual");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('isNot() with custom error message', () => {
@@ -156,7 +156,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("forbidden");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('in() with custom error message', () => {
@@ -166,7 +166,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("yellow");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('notIn() with custom error message', () => {
@@ -176,7 +176,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("admin");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('isNull() with custom error message', () => {
@@ -186,7 +186,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("not null");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('isEmptyString() with custom error message', () => {
@@ -196,7 +196,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("not empty");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
     });
 
@@ -208,7 +208,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('hasMaxLength() with custom error message', () => {
@@ -218,7 +218,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abcdefgh");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('hasLength() with custom error message', () => {
@@ -228,7 +228,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('hasLengthRange() with custom error message', () => {
@@ -238,7 +238,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
     });
 
@@ -250,7 +250,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("abc123");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('doesNotContainText() with custom error message', () => {
@@ -260,7 +260,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("this is spam");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
     });
 
@@ -272,7 +272,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("invalid-date");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('isDateOnOrAfter() with custom error message', () => {
@@ -283,7 +283,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate(new Date('2022-12-31'));
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('isDateOnOrBefore() with custom error message', () => {
@@ -294,7 +294,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate(new Date('2024-01-01'));
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('isDateBetween() with custom error message', () => {
@@ -306,7 +306,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate(new Date('2024-01-01'));
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
     });
 
@@ -318,7 +318,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("invalid-guid");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asHexColor() with custom error message', () => {
@@ -328,7 +328,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("invalid-color");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asUrl() with custom error message', () => {
@@ -338,7 +338,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("invalid-url");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
 
         test('asSecureUrl() with custom error message', () => {
@@ -348,7 +348,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("http://example.com");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} ${customMessage}`);
+            expect(result.errorMessage).toBe(customMessage);
         });
     });
 
@@ -360,7 +360,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} is mandatory`);
+            expect(result.errorMessage).toBe("is mandatory");
         });
 
         test('multiple validators - first passes, second fails with custom message', () => {
@@ -370,7 +370,7 @@ describe('Fluent API Custom Error Messages', () => {
                 .validate("invalid-email");
 
             expect(result.isValid).toBe(false);
-            expect(result.errorMessage).toBe(`${displayName} must be valid email`);
+            expect(result.errorMessage).toBe("must be valid email");
         });
 
         test('mix of custom and default error messages', () => {
@@ -382,7 +382,7 @@ describe('Fluent API Custom Error Messages', () => {
 
             expect(result.isValid).toBe(false); 
             // Should show both error messages since both validators fail
-            expect(result.errorMessage).toBe(`${displayName} must contain only letters and spaces. ${displayName} too short`);
+            expect(result.errorMessage).toBe(`${displayName} must contain only letters and spaces. too short`);
         });
     });
 

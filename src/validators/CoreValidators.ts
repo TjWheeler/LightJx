@@ -63,9 +63,9 @@ export class AggregatedValidator extends ValidatorBase {
 }
 
 export class RegexValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string, errorMessage: string="does not match the required format") {
-        super(fieldName, fieldDisplayName);
-        this.customMessage = errorMessage;
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        this.customMessage = customErrorMessage || "does not match the required format";
     }
     name = "RegexValidator";
     customMessage: string;
@@ -87,28 +87,40 @@ export class RegexValidator extends ValidatorBase {
 }
 export class AlphaTextValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must contain only letters and spaces");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must contain only letters and spaces";
+        }
     }
     name = "AlphaTextValidator";
     override expression?: string = "^([a-zA-Z\\s]{1,})$";
 }
 export class AlphaNumericTextValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must contain only letters and numbers (no spaces or special characters)");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must contain only letters and numbers (no spaces or special characters)";
+        }
     }
     name = "AlphaNumericTextValidator";
     override expression?: string = "^([a-zA-Z0-9]{1,})$";
 }
 export class AlphaNumericHyphenValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must contain only letters, numbers, spaces, and hyphens");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must contain only letters, numbers, spaces, and hyphens";
+        }
     }
     name = "AlphaNumericHyphenValidator";
     override expression?: string = "^([a-zA-Z0-9\\s\\-]{1,})$";
 }
 export class EmailValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid email address");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must be a valid email address";
+        }
     }
     name = "EmailValidator";
     override expression?: string = "^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$";
@@ -116,21 +128,30 @@ export class EmailValidator extends RegexValidator {
 
 export class GuidValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid GUID");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must be a valid GUID";
+        }
     }
     name = "GuidValidator";
     override expression?: string = "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$";
 }
 export class HexColorValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid hex color code (e.g. #FF0000 or #F00)");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must be a valid hex color code (e.g. #FF0000 or #F00)";
+        }
     }
     name = "HexColorValidator";
     override expression?: string = "^\#{1}[A-Fa-f0-9]{3}([A-Fa-f0-9]{3})?$";
 }
 export class UrlValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid URL");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must be a valid URL";
+        }
     }
     name = "UrlValidator";
     override expression?: string = "^((((https?|http?)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|" +
@@ -138,7 +159,10 @@ export class UrlValidator extends RegexValidator {
 }
 export class HttpsUrlValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid URL and start with https");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must be a valid URL and start with https";
+        }
     }
     name = "HttpsUrlValidator";
     override expression?: string = "^(((https)://)(%[0-9A-Fa-f]{2}|" +
@@ -146,7 +170,10 @@ export class HttpsUrlValidator extends RegexValidator {
 }
 export class PhoneNumberValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid phone number");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must be a valid phone number";
+        }
     }
     name = "PhoneNumberValidator";
     override expression?: string | RegExp = /^[\+{0,1}]?([\d*\s?|\-?|\)?|\(?]{3,})$/;
@@ -156,7 +183,10 @@ export class PhoneNumberValidator extends RegexValidator {
  * */
 export class NameTextValidator extends RegexValidator {
     constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
-        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid name (letters, spaces, hyphens, and apostrophes only)");
+        super(fieldName, fieldDisplayName, customErrorMessage);
+        if (!customErrorMessage) {
+            this.customMessage = "must be a valid name (letters, spaces, hyphens, and apostrophes only)";
+        }
     }
     name = "NameTextValidator";
     override expression?: string = "^([a-zA-Z\\s\\-']{1,})$";

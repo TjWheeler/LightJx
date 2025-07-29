@@ -26,8 +26,13 @@ export abstract class ValidatorBase implements Validator {
     }
     protected fail(message: string = "is not valid"): boolean {
         this.isValid = false;
-        const finalMessage = this.customErrorMessage || message;
-        this.errorMessage = `${this.fieldDisplayName || this.fieldName || this.defaultFieldName} ${finalMessage}`;
+        if (this.customErrorMessage) {
+            // Use custom error message as-is, without prefixing field name
+            this.errorMessage = this.customErrorMessage;
+        } else {
+            // Use default behavior with field name prefix
+            this.errorMessage = `${this.fieldDisplayName || this.fieldName || this.defaultFieldName} ${message}`;
+        }
         return false;
     }
     protected succeed(): boolean {

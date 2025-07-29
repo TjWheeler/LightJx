@@ -90,10 +90,11 @@ export class ValidatorFluent {
     /**
      * Validate with a custom regular expression
      * @param expression Regular Expression as a String
+     * @param errorMessage Optional custom error message
      * @returns 
      */
-    public withExpression(expression:string | RegExp): ValidatorFluent {
-        let validator = new Validators.RegexValidator(this.fieldName, this.displayName);
+    public withExpression(expression:string | RegExp, errorMessage?: string): ValidatorFluent {
+        let validator = new Validators.RegexValidator(this.fieldName, this.displayName, errorMessage);
         validator.expression = expression;
         this.add(validator);
         return this;
