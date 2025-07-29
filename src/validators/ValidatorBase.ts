@@ -3,9 +3,10 @@ import { Validator } from "../Validator";
 
 
 export abstract class ValidatorBase implements Validator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
         this.fieldName = fieldName;
         this.fieldDisplayName = fieldDisplayName;
+        this.customErrorMessage = customErrorMessage;
     }
     public abstract name:string;
     defaultFieldName: string = "The Field";
@@ -14,6 +15,7 @@ export abstract class ValidatorBase implements Validator {
     fieldName?: string;
     fieldDisplayName?: string;
     expression?: string | RegExp = undefined;
+    protected customErrorMessage?: string;
     public reset() {
         this.errorMessage = "";
         this.isValid = false;
@@ -24,7 +26,8 @@ export abstract class ValidatorBase implements Validator {
     }
     protected fail(message: string = "is not valid"): boolean {
         this.isValid = false;
-        this.errorMessage = `${this.fieldDisplayName || this.fieldName || this.defaultFieldName} ${message}`;
+        const finalMessage = this.customErrorMessage || message;
+        this.errorMessage = `${this.fieldDisplayName || this.fieldName || this.defaultFieldName} ${finalMessage}`;
         return false;
     }
     protected succeed(): boolean {

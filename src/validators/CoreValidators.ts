@@ -14,8 +14,8 @@ class log {
 }
 
 export class RequiredValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
     }
     name = "RequiredValidator";
     validate(input?: any): boolean {
@@ -86,67 +86,67 @@ export class RegexValidator extends ValidatorBase {
     }
 }
 export class AlphaTextValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must contain only letters and spaces");
     }
     name = "AlphaTextValidator";
     override expression?: string = "^([a-zA-Z\\s]{1,})$";
 }
 export class AlphaNumericTextValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must contain only letters and numbers (no spaces or special characters)");
     }
     name = "AlphaNumericTextValidator";
     override expression?: string = "^([a-zA-Z0-9]{1,})$";
 }
 export class AlphaNumericHyphenValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must contain only letters, numbers, spaces, and hyphens");
     }
     name = "AlphaNumericHyphenValidator";
     override expression?: string = "^([a-zA-Z0-9\\s\\-]{1,})$";
 }
 export class EmailValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid email address");
     }
     name = "EmailValidator";
     override expression?: string = "^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$";
 }
 
 export class GuidValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName, "must be a valid GUID");
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid GUID");
     }
     name = "GuidValidator";
     override expression?: string = "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$";
 }
 export class HexColorValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid hex color code (e.g. #FF0000 or #F00)");
     }
     name = "HexColorValidator";
     override expression?: string = "^\#{1}[A-Fa-f0-9]{3}([A-Fa-f0-9]{3})?$";
 }
 export class UrlValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName,"must be a valid URL");
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid URL");
     }
     name = "UrlValidator";
     override expression?: string = "^((((https?|http?)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|" +
         "[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,]blank:)?$";
 }
 export class HttpsUrlValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName, "must be a valid URL and start with https");
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid URL and start with https");
     }
     name = "HttpsUrlValidator";
     override expression?: string = "^(((https)://)(%[0-9A-Fa-f]{2}|" +
         "[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,]blank:)?$";
 }
 export class PhoneNumberValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid phone number");
     }
     name = "PhoneNumberValidator";
     override expression?: string | RegExp = /^[\+{0,1}]?([\d*\s?|\-?|\)?|\(?]{3,})$/;
@@ -155,15 +155,15 @@ export class PhoneNumberValidator extends RegexValidator {
  * Alpha, space, hyphen and aprostrophe 
  * */
 export class NameTextValidator extends RegexValidator {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage || "must be a valid name (letters, spaces, hyphens, and apostrophes only)");
     }
     name = "NameTextValidator";
     override expression?: string = "^([a-zA-Z\\s\\-']{1,})$";
 }
 export class NumberValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
     }
     name = "NumberValidator";
     validate(input?: any): boolean {
@@ -174,8 +174,8 @@ export class NumberValidator extends ValidatorBase {
     }
 }
 export class DateValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
     }
     name = "DateValidator";
     validate(input?: any): boolean {
@@ -190,8 +190,8 @@ export class DateValidator extends ValidatorBase {
     }
 }
 export class MinDateValidator extends ValidatorBase {
-    constructor(minDate: Date | Function, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(minDate: Date | Function, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.minDate = minDate;
     }
     name = "MinDateValidator";
@@ -210,8 +210,8 @@ export class MinDateValidator extends ValidatorBase {
     }
 }
 export class MaxDateValidator extends ValidatorBase {
-    constructor(maxDate: Date | Function, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(maxDate: Date | Function, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.maxDate = maxDate;
     }
     name = "MaxDateValidator";
@@ -230,16 +230,16 @@ export class MaxDateValidator extends ValidatorBase {
     }
 }
 export class BetweenDateValidator extends AggregatedValidator {
-    constructor(minDate: Date | Function, maxDate: Date | Function, fieldName?: string, fieldDisplayName?: string) {
+    constructor(minDate: Date | Function, maxDate: Date | Function, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
         super(fieldName, fieldDisplayName);
-        this.add(new MinDateValidator(minDate, fieldName, fieldDisplayName));
-        this.add(new MaxDateValidator(maxDate, fieldName, fieldDisplayName));
+        this.add(new MinDateValidator(minDate, fieldName, fieldDisplayName, customErrorMessage));
+        this.add(new MaxDateValidator(maxDate, fieldName, fieldDisplayName, customErrorMessage));
     }
     name = "BetweenDateValidator";
 }
 export class BooleanValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
     }
     name = "BooleanValidator";
     validate(input?: any): boolean {
@@ -247,16 +247,16 @@ export class BooleanValidator extends ValidatorBase {
             return this.succeed();
         }
         if (typeof (input) == "string") {
-            return (input.toLocaleLowerCase() == "true" || input.toLocaleLowerCase() == "false") ? this.succeed() : this.fail();
+            return (input.toLocaleLowerCase() == "true" || input.toLocaleLowerCase() == "false") ? this.succeed() : this.fail("must be a valid boolean (true or false)");
         } else if (typeof (input) == "boolean") {
             return this.succeed();
         }
-        return this.fail();
+        return this.fail("must be a valid boolean (true or false)");
     }
 }
 export class ContainsTextValidator extends ValidatorBase {
-    constructor(searchText: string | Function, ignoreCase: boolean = false, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(searchText: string | Function, ignoreCase: boolean = false, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.searchText = searchText;
         this.ignoreCase = ignoreCase;
     }
@@ -270,16 +270,16 @@ export class ContainsTextValidator extends ValidatorBase {
         if (typeof (input) === "string") {
             const searchText = this.getAsString(this.searchText);
             if (this.ignoreCase) {
-                return input.toLowerCase().includes(searchText.toLowerCase()) ? this.succeed() : this.fail("does not contain the required text");
+                return input.toLowerCase().includes(searchText.toLowerCase()) ? this.succeed() : this.fail(`must contain the text "${searchText}"`);
             }
-            return input.includes(searchText) ? this.succeed() : this.fail("does not contain the required text");
+            return input.includes(searchText) ? this.succeed() : this.fail(`must contain the text "${searchText}"`);
         }
         return this.fail("is not a string");
     }
 }
 export class NotContainsTextValidator extends ValidatorBase {
-    constructor(searchText: string | Function, ignoreCase: boolean = false, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(searchText: string | Function, ignoreCase: boolean = false, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.searchText = searchText;
         this.ignoreCase = ignoreCase;
     }
@@ -293,16 +293,16 @@ export class NotContainsTextValidator extends ValidatorBase {
         const searchText = this.getAsString(this.searchText);
         if (typeof (input) === "string") {
             if (this.ignoreCase) {
-                return input.toLowerCase().includes(searchText.toLowerCase()) ? this.fail("contains invalid text") : this.succeed();
+                return input.toLowerCase().includes(searchText.toLowerCase()) ? this.fail(`must not contain the text "${searchText}"`) : this.succeed();
             }
-            return input.includes(searchText) ? this.fail("contains invalid text") : this.succeed();
+            return input.includes(searchText) ? this.fail(`must not contain the text "${searchText}"`) : this.succeed();
         }
         return this.fail("is not a string");
     }
 }
 export class FloatValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
     }
     name = "FloatValidator";
     validate(input?: any): boolean {
@@ -312,16 +312,16 @@ export class FloatValidator extends ValidatorBase {
         if (this.isNumber(input)) return this.succeed();
         if (this.isString(input)) {
             if (/^[0-9.]{1,}$/.test(input) === false) {
-                return this.fail();
+                return this.fail("is not a valid floating point number");
             }
             return isNaN(parseFloat(input as string)) ? this.fail("is not a valid floating point number") : this.succeed();
         }
-        return this.fail();
+        return this.fail("is not a valid floating point number");
     }
 }
 export class IntValidator extends ValidatorBase {
-    constructor(fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
     }
     name = "IntValidator";
     validate(input?: any): boolean {
@@ -333,12 +333,12 @@ export class IntValidator extends ValidatorBase {
         if (this.isString(input)) {
             return (input as string).indexOf(".") !== -1 || isNaN(parseInt(input as string)) ? this.fail(errorMessage) : Number.isInteger(parseFloat(input as string)) ? this.succeed() : this.fail(errorMessage);
         }
-        return this.fail();
+        return this.fail(errorMessage);
     }
 }
 export class InArrayValidator extends ValidatorBase {
-    constructor(items: Array<any>, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(items: Array<any>, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.items = items;
     }
     name = "InArrayValidator";
@@ -350,12 +350,15 @@ export class InArrayValidator extends ValidatorBase {
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i] === input) return this.succeed();
         }
-        return this.fail();
+        const allowedValues = this.items.map(item => 
+            typeof item === 'string' ? `"${item}"` : String(item)
+        ).join(", ");
+        return this.fail(`must be one of the allowed values: ${allowedValues}`);
     }
 }
 export class NotInArrayValidator extends ValidatorBase {
-    constructor(items: Array<any>, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(items: Array<any>, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.items = items;
     }
     name = "NotInArrayValidator";
@@ -365,14 +368,19 @@ export class NotInArrayValidator extends ValidatorBase {
             return this.succeed();
         }
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i] === input) return this.fail();
+            if (this.items[i] === input) {
+                const forbiddenValues = this.items.map(item => 
+                    typeof item === 'string' ? `"${item}"` : String(item)
+                ).join(", ");
+                return this.fail(`cannot be one of these values: ${forbiddenValues}`);
+            }
         }
         return this.succeed();
     }
 }
 export class LengthValidator extends ValidatorBase {
-    constructor(min?: number | Function, max?: number | Function, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(min?: number | Function, max?: number | Function, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.min = min;
         this.max = max;
     }
@@ -393,8 +401,8 @@ export class LengthValidator extends ValidatorBase {
         }
         else if (this.isArray(input)) {
             const length = (input as Array<any>).length;
-            if (length < min) return this.fail();
-            if (max && length > max) return this.fail();
+            if (min && length < min) return this.fail(`must have a minimum length of ${min}`);
+            if (max && length > max) return this.fail(`must have a maximum length of ${max}`);
             return this.succeed();
         } else if (this.isNumber(input)) {
             const length = input.toString().length;
@@ -402,12 +410,12 @@ export class LengthValidator extends ValidatorBase {
             if (max && length > max) return this.fail(`must have a maximum length of ${max}`);
             return this.succeed();
         }
-        return this.fail();
+        return this.fail("is not a valid input type for length validation");
     }
 }
 export class MinValidator extends ValidatorBase {
-    constructor(min: number | Function, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(min: number | Function, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.min = min;
     }
     name = "MinValidator";
@@ -431,8 +439,8 @@ export class MinValidator extends ValidatorBase {
     }
 }
 export class MaxValidator extends ValidatorBase {
-    constructor(max: number | Function, fieldName?: string, fieldDisplayName?: string) {
-        super(fieldName, fieldDisplayName);
+    constructor(max: number | Function, fieldName?: string, fieldDisplayName?: string, customErrorMessage?: string) {
+        super(fieldName, fieldDisplayName, customErrorMessage);
         this.max = max;
     }
     name = "MaxValidator";
@@ -449,6 +457,6 @@ export class MaxValidator extends ValidatorBase {
         } else if (this.isFloatString(input)) {
             return parseFloat(input) <= max ? this.succeed() : this.fail(`must not be more than ${max}`);
         }
-        return this.fail();
+        return this.fail("is not the correct datatype for MaxValidation (did you mean MaxLength?)");
     }
 }

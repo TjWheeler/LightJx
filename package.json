@@ -1,6 +1,6 @@
 {
   "name": "lightjx",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A javascript validation framework",
   "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
@@ -44,6 +44,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "luxon": "^3.2.1"
+    "luxon": "^3.7.1"
   }
 }

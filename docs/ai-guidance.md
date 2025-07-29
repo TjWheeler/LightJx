@@ -530,39 +530,38 @@ Validate.field("code", "Code").withExpression(/^[A-Z]{3}-\d{4}$/)
 ```javascript
 const registrationValidators = {
     username: Validate.field("username", "Username")
-        .required()
-        .asAlphaNumericText()
-        .hasMinLength(3)
-        .hasMaxLength(20),
+        .required("Please enter a username")
+        .asAlphaNumericText("Username can only contain letters and numbers")
+        .hasMinLength(3, "Username must be at least 3 characters")
+        .hasMaxLength(20, "Username cannot exceed 20 characters"),
     
     email: Validate.field("email", "Email Address")
-        .required()
-        .asEmail(),
+        .required("Email address is required")
+        .asEmail("Please enter a valid email address"),
     
     password: Validate.field("password", "Password")
-        .required()
-        .hasMinLength(8)
-        .containsText(/[A-Z]/)  // At least one uppercase
-        .containsText(/[0-9]/)  // At least one number
-        .containsText(/[!@#$%^&*]/), // At least one special char
+        .required("Password is required")
+        .hasMinLength(8, "Password must be at least 8 characters")
+        .containsText("A", false, "Password must contain at least one uppercase letter")
+        .containsText("0", false, "Password must contain at least one number"),
     
     confirmPassword: Validate.field("confirmPassword", "Confirm Password")
-        .required(),
+        .required("Please confirm your password"),
     
     age: Validate.field("age", "Age")
-        .required()
-        .asInt()
-        .min(13)
-        .max(120),
+        .required("Age is required")
+        .asInt("Age must be a whole number")
+        .min(13, "You must be at least 13 years old")
+        .max(120, "Please enter a valid age"),
     
     termsAccepted: Validate.field("terms", "Terms Acceptance")
-        .required()
-        .is(true),
+        .required("You must accept the terms and conditions")
+        .is(true, "You must accept the terms to continue"),
     
     zipCode: Validate.field("zipCode", "Zip Code")
-        .required()
-        .hasLength(5)
-        .asNumber()
+        .required("Zip code is required")
+        .hasLength(5, "Zip code must be exactly 5 digits")
+        .asNumber("Zip code must contain only numbers")
 };
 
 function validateRegistration(formData) {
@@ -898,18 +897,105 @@ Validate.field("email", "Email").required().asEmail()
 ```
 
 ### 5. Custom Error Messages
-For complex validations, provide context:
-```javascript
-const passwordValidator = Validate.field("password", "Password")
-    .required()
-    .hasMinLength(8);
+All validator methods support custom error messages through an optional `errorMessage` parameter. When provided, your custom message replaces the default validator error message.
 
-const result = passwordValidator.validate("short");
-if (!result.isValid) {
-    // Enhance error message with requirements
-    const enhanced = result.errorMessage + 
-        ". Password must be at least 8 characters with uppercase, lowercase, and numbers.";
-}
+#### Basic Custom Error Messages
+```javascript
+// Custom error message for required validation
+Validate.field("email", "Email Address")
+    .required("Please enter your email address")
+    .validate("");
+// Error: "Email Address Please enter your email address"
+
+// Custom error message for format validation
+Validate.field("phone", "Phone Number")
+    .asPhoneNumber("Enter a valid phone number format")
+    .validate("invalid");
+// Error: "Phone Number Enter a valid phone number format"
+```
+
+#### All Methods Support Custom Messages
+Every fluent API method accepts an optional `errorMessage` parameter:
+```javascript
+// Core validators
+.required("This field is mandatory")
+.asBoolean("Must be true or false")
+.asEmail("Enter a valid email address")
+.asPhoneNumber("Invalid phone number format")
+.asAlphaText("Only letters and spaces allowed")
+.asAlphaNumericText("Only letters and numbers allowed")
+.asAlphaNumericHyphenText("Only letters, numbers, spaces and hyphens")
+.asName("Enter a valid name")
+
+// Number validators
+.asNumber("Must be a numeric value")
+.asInt("Must be a whole number")
+.asFloat("Must be a decimal number")
+.min(10, "Value must be at least 10")
+.max(100, "Value cannot exceed 100")
+
+// Length validators
+.hasMinLength(5, "Too short - minimum 5 characters")
+.hasMaxLength(20, "Too long - maximum 20 characters")
+.hasLength(8, "Must be exactly 8 characters")
+.hasLengthRange(3, 15, "Must be between 3 and 15 characters")
+
+// Value validators
+.is("expected", "Must match expected value")
+.isNot("forbidden", "This value is not allowed")
+.in(["red", "green", "blue"], "Please select a valid color")
+.notIn(["admin", "root"], "Username not allowed")
+.isNull("Must be null")
+.isEmptyString("Must be empty")
+
+// Text content validators
+.containsText("password", false, "Must contain the word 'password'")
+.doesNotContainText("spam", false, "Cannot contain spam")
+
+// Date validators
+.asDate("Enter a valid date")
+.isDateOnOrAfter(minDate, "Date is too early")
+.isDateOnOrBefore(maxDate, "Date is too late")
+.isDateBetween(start, end, "Date must be within range")
+
+// Format validators
+.asGuid("Must be a valid GUID")
+.asHexColor("Enter a valid hex color code")
+.asUrl("Must be a valid URL")
+.asSecureUrl("Must be a secure HTTPS URL")
+```
+
+#### Chaining with Custom Messages
+```javascript
+const validator = Validate.field("password", "Password")
+    .required("Password is required")
+    .hasMinLength(8, "Password must be at least 8 characters")
+    .containsText("A", false, "Password must contain uppercase letters");
+
+const result = validator.validate("abc");
+// Multiple errors: "Password Password must be at least 8 characters. Password Password must contain uppercase letters"
+```
+
+#### Mixed Custom and Default Messages
+```javascript
+const validator = Validate.field("username", "Username")
+    .required("Username is required")
+    .asAlphaNumericText() // uses default message
+    .hasLengthRange(3, 20, "Username must be 3-20 characters");
+
+const result = validator.validate("user@name");
+// Error: "Username must contain only letters and numbers (no spaces or special characters)"
+```
+
+#### Custom Messages Override Defaults
+```javascript
+// Without custom message
+Validate.field("age", "Age").asInt().validate("12.5");
+// Error: "Age is not a valid whole number"
+
+// With custom message
+Validate.field("age", "Age").asInt("Please enter your age as a whole number").validate("12.5");
+// Error: "Age Please enter your age as a whole number"
 ```
 
 ### 6. Reuse Validators

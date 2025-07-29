@@ -114,36 +114,66 @@ let validator = Validate.field("username", "Your username").required().asAlphaTe
 let validator = Validate.define().required().asAlphaText().hasMaxLength(5);
 ```
 
+## Custom Error Messages
+
+All validator methods support custom error messages through an optional `errorMessage` parameter. When provided, your custom message replaces the default validator error message.
+
+```javascript
+// Basic custom error message
+let validator = Validate.field("email", "Email Address")
+    .required("Please enter your email address")
+    .asEmail("Enter a valid email address");
+
+// Multiple validators with custom messages
+let passwordValidator = Validate.field("password", "Password")
+    .required("Password is required")
+    .hasMinLength(8, "Password must be at least 8 characters")
+    .containsText("A", false, "Password must contain an uppercase letter");
+
+// Mix custom and default messages
+let usernameValidator = Validate.field("username", "Username")
+    .required("Username is required")
+    .asAlphaNumericText() // uses default message
+    .hasMaxLength(20, "Username cannot exceed 20 characters");
+```
+
 ## Available commands
+
+All methods accept an optional `errorMessage` parameter for custom error messages:
 
 - with(validator:Validator)
 - withExpression(expression:string | RegExp)
-- asAlphaText()
-- asAlphaNumericText()
-- asAlphaNumericHyphenText()
-- asName()
-- asPhoneNumber()
-- asEmail()
-- asDate()
-- isDateOnOrAfter(minDate:Date)
-- isDateOnOrBefore(maxDate:Date)
-- isDateBetween(minDate:Date, maxDate:Date)
-- asBoolean()
-- containsText(searchText:string, ignoreCase:boolean = false)
-- asInt()
-- asFloat()
-- asGuid()
-- asHexColor()
-- in(items:Array<any>)
-- notIn(items:Array<any>)
-- isNull()
-- isEmptyString()
-- is(value:any)
-- isNot(value:any)
-- hasLengthRange(min?:number, max?:number)
-- hasMinLength(minLength:number | Function)
-- hasMaxLength(maxLength:number | Function)
-- hasLength(length:number | Function)
+- required(errorMessage?: string)
+- asAlphaText(errorMessage?: string)
+- asAlphaNumericText(errorMessage?: string)
+- asAlphaNumericHyphenText(errorMessage?: string)
+- asName(errorMessage?: string)
+- asPhoneNumber(errorMessage?: string)
+- asEmail(errorMessage?: string)
+- asDate(errorMessage?: string)
+- isDateOnOrAfter(minDate:Date, errorMessage?: string)
+- isDateOnOrBefore(maxDate:Date, errorMessage?: string)
+- isDateBetween(minDate:Date, maxDate:Date, errorMessage?: string)
+- asBoolean(errorMessage?: string)
+- containsText(searchText:string, ignoreCase:boolean = false, errorMessage?: string)
+- doesNotContainText(searchText:string, ignoreCase:boolean = false, errorMessage?: string)
+- asInt(errorMessage?: string)
+- asFloat(errorMessage?: string)
+- asNumber(errorMessage?: string)
+- asGuid(errorMessage?: string)
+- asHexColor(errorMessage?: string)
+- asUrl(errorMessage?: string)
+- asSecureUrl(errorMessage?: string)
+- in(items:Array<any>, errorMessage?: string)
+- notIn(items:Array<any>, errorMessage?: string)
+- isNull(errorMessage?: string)
+- isEmptyString(errorMessage?: string)
+- is(value:any, errorMessage?: string)
+- isNot(value:any, errorMessage?: string)
+- hasLengthRange(min?:number, max?:number, errorMessage?: string)
+- hasMinLength(minLength:number | Function, errorMessage?: string)
+- hasMaxLength(maxLength:number | Function, errorMessage?: string)
+- hasLength(length:number | Function, errorMessage?: string)
 - hasNoBrackets()
-- min(min:number)
-- max(max:number)
+- min(min:number, errorMessage?: string)
+- max(max:number, errorMessage?: string)
