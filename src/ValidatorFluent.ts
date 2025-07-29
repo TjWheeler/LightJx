@@ -235,6 +235,10 @@ export class ValidatorFluent {
         this.add(new Validators.LengthValidator(minLength, undefined, this.fieldName, this.displayName));
         return this;
     }
+    public hasLength(length:number | Function): ValidatorFluent {
+        this.add(new Validators.LengthValidator(length, length, this.fieldName, this.displayName));
+        return this;
+    }
     public min(min:number | Function): ValidatorFluent {
         this.add(new Validators.MinValidator(min, this.fieldName, this.displayName));
         return this;

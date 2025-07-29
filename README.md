@@ -2,6 +2,10 @@
 
 A javascript validation framework ported and adapted from [LightVx](https://github.com/TjWheeler/LightVx)
 
+## Documentation
+
+📚 **[AI Developer Guide](./docs/ai-guidance.md)** - Comprehensive guide with all validators, patterns, and examples
+
 # Usage
 
 ```node
@@ -60,6 +64,24 @@ if(!validator.isValid) {
 }
 ```
 
+## Validating exact lengths
+LightJx provides a `hasLength()` method for validating exact string or number lengths, useful for postal codes, IDs, phone numbers, etc.
+
+```javascript
+import { Validate } from 'lightjx';
+
+// Validate US zip code (exactly 5 digits)
+let zipValidator = Validate.field("zipCode","Zip Code").required().hasLength(5);
+zipValidator.validate("12345"); // Valid
+zipValidator.validate("1234");  // Invalid - too short
+zipValidator.validate("123456"); // Invalid - too long
+
+// Validate product ID (exactly 8 characters)
+let idValidator = Validate.field("productId","Product ID").required().hasLength(8).asAlphaNumericText();
+idValidator.validate("ABC12345"); // Valid
+idValidator.validate("ABC123");   // Invalid - too short
+```
+
 ## Using a function to defer validtaion
 Sometimes, you might want to validate using information from another source, such as a different field in the form.  Some validators allow a function to be used instead of the comparison value, these are:
 - MinValidator
@@ -68,7 +90,7 @@ Sometimes, you might want to validate using information from another source, suc
 - BetweenDateValidator
 - ContainsTextValidator
 - NotContainsTextValidator
-- LengthValidator
+- LengthValidator (hasMinLength, hasMaxLength, hasLengthRange, hasLength)
 Passing in a function will allow more advanced validation that adjusts to changing form data.
 
 ```javascript
@@ -119,7 +141,9 @@ let validator = Validate.define().required().asAlphaText().hasMaxLength(5);
 - is(value:any)
 - isNot(value:any)
 - hasLengthRange(min?:number, max?:number)
-- hasLength(length:number)
+- hasMinLength(minLength:number | Function)
+- hasMaxLength(maxLength:number | Function)
+- hasLength(length:number | Function)
 - hasNoBrackets()
 - min(min:number)
 - max(max:number)
