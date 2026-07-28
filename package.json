@@ -1,14 +1,31 @@
 {
   "name": "lightjx",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "A javascript validation framework",
   "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/bundle.js"
+      },
+      "types": "./dist/index.d.ts",
+      "default": "./dist/bundle.js"
+    },
+    "./package.json": "./package.json"
+  },
   "private": false,
   "scripts": {
-    "build": "npm run build-tsc && webpack && npm run build-dts",
+    "build": "npm run build-tsc && webpack && npm run build-dts && npm run build-esm",
     "build-tsc": "tsc --build",
     "build-dts": "rollup -c rollup.dts.config.mjs && mv dist/bundled.d.ts dist/index.d.ts",
+    "build-esm": "node scripts/build-esm.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:validators": "jest __tests__/validator.test.ts",

@@ -6,6 +6,7 @@ __tests__
 src
 dist/src
 build
+scripts
 .vscode
 jest.config.*
 tsconfig.json
