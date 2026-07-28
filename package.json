@@ -24,7 +24,7 @@
   "scripts": {
     "build": "npm run build-tsc && webpack && npm run build-dts && npm run build-esm",
     "build-tsc": "tsc --build",
-    "build-dts": "rollup -c rollup.dts.config.mjs && mv dist/bundled.d.ts dist/index.d.ts",
+    "build-dts": "rollup -c rollup.dts.config.mjs && node scripts/rename-dts.js",
     "build-esm": "node scripts/build-esm.js",
     "test": "jest",
     "test:watch": "jest --watch",
